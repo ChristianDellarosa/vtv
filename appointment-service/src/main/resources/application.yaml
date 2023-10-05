@@ -1,0 +1,25 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+  data:
+    mongodb:
+      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      auto-index-creation: true
+
+publisher:
+  inspection:
+    queue:
+      name: 'cola1'
+
+appointments.for-day: 10
+appointments.for-hour: 3
+appointments.for-month: 30
+appointments.months-enabled: 1 #TODO: Meses, tiene que ser una lista
+appointments.days-enabled: 1 #TODO: Dias, lunes martes, etc tiene que ser una lista
