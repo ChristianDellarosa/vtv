@@ -102,6 +102,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                 .lte(Date.from(to.toInstant())));
 
         final var appointmentDocumentList = mongoTemplate.find(query, AppointmentDocument.class);
+
         return appointmentDocumentList.stream().map(appointmentDocument ->
                 Appointment.builder()
                         .carPlate(appointmentDocument.getCarPlate())

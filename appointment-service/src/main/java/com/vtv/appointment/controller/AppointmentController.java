@@ -3,7 +3,7 @@ package com.vtv.appointment.controller;
 import com.vtv.appointment.model.domain.Appointment;
 import com.vtv.appointment.model.domain.AppointmentType;
 import com.vtv.appointment.model.dto.AppointmentDto;
-import com.vtv.appointment.model.dto.DateTimeFilter;
+import com.vtv.appointment.model.dto.AppointmentQuery;
 import com.vtv.appointment.model.dto.OrderInspectionDto;
 import com.vtv.appointment.service.AppointmentService;
 import com.vtv.appointment.service.InspectionPublisherService;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -56,8 +55,8 @@ public class AppointmentController {
     }
 
     @GetMapping("/available") //TODO: By filters
-    public List<Appointment> getAvailableAppointments(@Valid DateTimeFilter dateTimeFilter) { //TODO: Migrar a DTO
-        return this.appointmentService.getAvailable(dateTimeFilter);
+    public List<ZonedDateTime> getAvailableAppointments(@Valid AppointmentQuery appointmentQuery) { //TODO: Migrar a DTO
+        return this.appointmentService.getAvailable(appointmentQuery);
     }
 //
 //    @PostMapping

@@ -11,11 +11,11 @@ import java.time.Month;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DateTimeFilter {
-    Integer year; //TODO: Quizas este al pedo y hago current year
+public class AppointmentQuery {
+    //Integer year; //TODO: Quizas este al pedo y hago current year
     Integer dayNumber; //TODO: De 1 a 31
     Month month;
-    String hour; //TODO: Si viene hora tiene que venir dia, dia es numerico, etc para conformar una fecha es dayNumber/Month/YEAR
+    Integer hour; //TODO: Si viene hora tiene que venir dia, dia es numerico, etc para conformar una fecha es dayNumber/Month/YEAR
 }
 
 //Strategies
