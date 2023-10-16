@@ -5,11 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
 
-import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Builder
 @Data
@@ -19,7 +17,7 @@ public class OrderInspectionDto implements Serializable {
 
     private String carPlate;
     private String clientEmail;
-    private LocalDateTime dateTime;
+    private ZonedDateTime dateTime;
     private AppointmentType appointmentType;
     private OrderType orderType;
 }

@@ -1,7 +1,8 @@
 package com.vtv.appointment.controller;
 
-import com.vtv.appointment.model.dto.ScheduleQuery;
-import com.vtv.appointment.service.ScheduleService;
+import com.vtv.appointment.model.domain.ScheduleQuery;
+import com.vtv.appointment.model.dto.ScheduleQueryDto;
+import com.vtv.appointment.service.schedule.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,11 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public List<ZonedDateTime> getAvailableAppointments(@Valid ScheduleQuery scheduleQuery) { //TODO: Migrar a DTO
-        return this.scheduleService.get(scheduleQuery);
+    public List<ZonedDateTime> getAvailableAppointments(@Valid ScheduleQueryDto scheduleQueryDto) { //TODO: Migrar a DTO
+        return this.scheduleService.get(ScheduleQuery.builder()
+                .hour(scheduleQueryDto.getHour())
+                .month(scheduleQueryDto.getMonth())
+                .dayNumber(scheduleQueryDto.getDayNumber())
+                .build());
     }
 }

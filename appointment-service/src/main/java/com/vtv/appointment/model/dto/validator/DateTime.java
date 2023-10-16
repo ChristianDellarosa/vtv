@@ -8,18 +8,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = LocalDateTimeValidator.class)
+@Constraint(validatedBy = DateValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LocalDateTimeRange {
+public @interface DateTime {
 
-    String message() default "El tiempo debe estar comprendido entre las 9 AM y las 18 PM";
+    String message() default "La fecha del turno debera ser posterior al dia actual";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    int startHour();
-
-    int endHour();
 }

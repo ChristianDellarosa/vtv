@@ -1,15 +1,15 @@
-package com.vtv.appointment.service;
+package com.vtv.appointment.service.schedule;
 
 import com.vtv.appointment.configuration.ScheduleConfiguration;
 import com.vtv.appointment.model.domain.Appointment;
-import com.vtv.appointment.model.dto.ScheduleQuery;
+import com.vtv.appointment.model.domain.ScheduleQuery;
+import com.vtv.appointment.model.dto.ScheduleQueryDto;
 import com.vtv.appointment.repository.AppointmentRepository;
-import com.vtv.appointment.service.strategy.ScheduleByMonthAndDayAndHour;
-import com.vtv.appointment.service.strategy.ScheduleByMonthAndDayFilter;
-import com.vtv.appointment.service.strategy.ScheduleByMonthFilter;
-import com.vtv.appointment.service.strategy.ScheduleFilter;
-import com.vtv.appointment.service.strategy.ScheduleWithoutFilter;
-import com.vtv.appointment.util.DateUtils;
+import com.vtv.appointment.service.schedule.filter.ScheduleByMonthAndDayAndHour;
+import com.vtv.appointment.service.schedule.filter.ScheduleByMonthAndDayFilter;
+import com.vtv.appointment.service.schedule.filter.ScheduleByMonthFilter;
+import com.vtv.appointment.service.schedule.filter.ScheduleFilter;
+import com.vtv.appointment.service.schedule.filter.ScheduleWithoutFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;

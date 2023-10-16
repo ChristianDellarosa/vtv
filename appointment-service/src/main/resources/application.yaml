@@ -10,14 +10,13 @@ spring:
 
   data:
     mongodb:
-      uri: 'mongodb://root:example@localhost:27017/vtv?authSource=admin' #'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      #mongodb://user:passw@localhost:27017/vtv?authSource=admin
       auto-index-creation: true
 
-publisher:
+producer:
   inspection:
-    queue:
-      name: 'cola1'
-
+    queue-name: 'cola1'
 
 schedules:
   months-enable:

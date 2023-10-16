@@ -1,6 +1,7 @@
-package com.vtv.appointment.service;
+package com.vtv.appointment.service.schedule;
 
-import com.vtv.appointment.model.dto.ScheduleQuery;
+import com.vtv.appointment.model.domain.ScheduleQuery;
+import com.vtv.appointment.model.dto.ScheduleQueryDto;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;

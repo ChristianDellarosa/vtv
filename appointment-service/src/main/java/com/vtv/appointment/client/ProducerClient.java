@@ -1,5 +1,5 @@
 package com.vtv.appointment.client;
 
-public interface PublisherClient<T> {
+public interface ProducerClient<T> {
     void send(T message);
 }

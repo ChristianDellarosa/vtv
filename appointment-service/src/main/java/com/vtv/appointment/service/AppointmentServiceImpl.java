@@ -2,7 +2,11 @@ package com.vtv.appointment.service;
 
 import com.vtv.appointment.model.domain.Appointment;
 import com.vtv.appointment.model.domain.AppointmentType;
+import com.vtv.appointment.model.dto.OrderInspectionDto;
+import com.vtv.appointment.model.dto.OrderType;
 import com.vtv.appointment.repository.AppointmentRepository;
+import com.vtv.appointment.service.schedule.ScheduleService;
+import com.vtv.appointment.service.inspection.InspectionProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +21,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final ScheduleService scheduleService;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, ScheduleService scheduleService) {
+    private final InspectionProducerService inspectionProducerService;
+
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository,
+                                  ScheduleService scheduleService,
+                                  InspectionProducerService inspectionProducerService) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleService = scheduleService;
+        this.inspectionProducerService = inspectionProducerService;
     }
 
     @Override
@@ -56,8 +65,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         //5 Reservar
         final Appointment appointmentCreated = appointmentRepository.create(appointment);
 
-
         //6 Mandar el evento
+        inspectionProducerService.orderInspection(OrderInspectionDto.builder()
+                        .clientEmail(appointment.getClientEmail())
+                        .carPlate(appointment.getCarPlate())
+                        .dateTime(appointment.getDateTime())
+                        .orderType(OrderType.CREATE)
+                        .appointmentType(appointment.getType())
+                .build());
+
         return appointmentCreated;
     }
 
@@ -88,9 +104,3 @@ public class AppointmentServiceImpl implements AppointmentService {
         return hasPreviousInspection && hasPreviousReinspection;
     }
 }
-
-
-
-/*
-    final ZonedDateTime firstDayOfMonth = ZonedDateTime.of(LocalDate.of(2023, 10, 1).with(TemporalAdjusters.firstDayOfMonth()).atTime(21, 0, 0), ZoneId.of("America/Buenos_Aires"));
-    final ZonedDateTime lastDayOfMonth = ZonedDateTime.of(LocalDate.of(2023, 10, 1).with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59), ZoneId.of("America/Buenos_Aires")); //TODO: Busqueda para el mes*/

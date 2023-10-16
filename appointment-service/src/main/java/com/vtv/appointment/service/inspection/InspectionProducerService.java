@@ -1,11 +1,9 @@
-package com.vtv.appointment.service;
+package com.vtv.appointment.service.inspection;
 
 
 import com.vtv.appointment.model.dto.OrderInspectionDto;
 
-public interface InspectionPublisherService {
-
-   void send(OrderInspectionDto message);
+public interface InspectionProducerService {
 
    void orderInspection(OrderInspectionDto orderInspectionDto);
 }
