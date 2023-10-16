@@ -22,4 +22,13 @@ public class Appointment {
     private ZonedDateTime dateTime;
 
     private AppointmentType type;
+
+
+    public  boolean isReinspection() {
+        return AppointmentType.RE_INSPECTION.equals(type);
+    }
+
+    public  boolean isInspection() {
+        return AppointmentType.INSPECTION.equals(type);
+    }
 }

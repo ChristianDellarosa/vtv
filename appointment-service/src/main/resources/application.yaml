@@ -19,7 +19,7 @@ publisher:
       name: 'cola1'
 
 
-appointments:
+schedules:
   months-enable:
     - FEBRUARY
     - MARCH
@@ -29,23 +29,20 @@ appointments:
     - NOVEMBER
     - DECEMBER
   days-enable:
+    - MONDAY
     - TUESDAY
     - WEDNESDAY
-    - FRIDAY
+    - THURSDAY
   hours-enable:
     - 9
     - 14
     - 15
     - 16
     - 17
-  from-hour: 9
-  to-hour: 18
   per-hour: 3
   holiday-days:
     - '2023-10-21'
 
-
-#TODO: Dias, lunes martes, etc tiene que ser una lista
 
 server:
   port: 9820

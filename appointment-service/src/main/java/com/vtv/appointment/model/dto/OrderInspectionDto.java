@@ -20,5 +20,6 @@ public class OrderInspectionDto implements Serializable {
     private String carPlate;
     private String clientEmail;
     private LocalDateTime dateTime;
-    private AppointmentType type;
+    private AppointmentType appointmentType;
+    private OrderType orderType;
 }

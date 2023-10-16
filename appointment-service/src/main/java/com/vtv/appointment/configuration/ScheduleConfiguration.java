@@ -12,10 +12,8 @@ import java.util.List;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "appointments")
-public class AppointmentConfiguration {
-    private Integer fromHour;
-    private Integer toHour;
+@ConfigurationProperties(prefix = "schedules")
+public class ScheduleConfiguration {
     private List<Month> monthsEnable;
     private List<DayOfWeek> daysEnable;
     private List<Integer> hoursEnable; //TODO: Luego ver de pasarlo a hora minuto

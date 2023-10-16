@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface AppointmentRepository {
 
-    AppointmentDocument create(Appointment appointment);
+    Appointment create(Appointment appointment);
 
     List<Appointment> getByCarPlate(String carPlate);
+
+    List<Appointment> getByDateTime(ZonedDateTime dateTime);
 
     List<Appointment> getByDateTimeRange(ZonedDateTime from, ZonedDateTime to);
 }

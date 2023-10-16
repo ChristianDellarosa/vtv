@@ -3,7 +3,8 @@ package com.vtv.appointment.controller;
 import com.vtv.appointment.model.domain.Appointment;
 import com.vtv.appointment.model.domain.AppointmentType;
 import com.vtv.appointment.model.dto.AppointmentDto;
-import com.vtv.appointment.model.dto.AppointmentQuery;
+import com.vtv.appointment.model.dto.OrderType;
+import com.vtv.appointment.model.dto.ScheduleQuery;
 import com.vtv.appointment.model.dto.OrderInspectionDto;
 import com.vtv.appointment.service.AppointmentService;
 import com.vtv.appointment.service.InspectionPublisherService;
@@ -37,7 +38,8 @@ public class AppointmentController {
         this.publisherService.send(OrderInspectionDto.builder()
                 .carPlate("aCarplate")
                 .clientEmail(id)
-                .type(AppointmentType.RE_INSPECTION)
+                .appointmentType(AppointmentType.RE_INSPECTION)
+                .orderType(OrderType.CREATE)
                 .build());
     }
 
@@ -54,23 +56,18 @@ public class AppointmentController {
         return null;
     }
 
-    @GetMapping("/available") //TODO: By filters
-    public List<ZonedDateTime> getAvailableAppointments(@Valid AppointmentQuery appointmentQuery) { //TODO: Migrar a DTO
-        return this.appointmentService.getAvailable(appointmentQuery);
+    @GetMapping("/{id}")
+    public AppointmentDto getByCarPlate(@RequestParam String id) { //TODO: Nuestro id es la patente, o quizas hacer por filter de email o carPlate
+        log.info(id);
+        final var hola = appointmentService.getLastByCarPlate(id);
+        log.info(hola.toString());
+        return null;
     }
 //
-//    @PostMapping
+//    @PutMapping
 //    public AppointmentDto update(@Validated @RequestBody AppointmentDto appointmentDto) {
 //        return null; //TODO: Deberia tener una etapa de confirmacion por email poneele
 //    }
 //
-//    @PostMapping //TODO: Quizas no tenga sentido
-//    public AppointmentDto getById(@Validated @RequestBody AppointmentDto appointmentDto) {
-//        return null;
-//    }
-//
-//    @GetMapping
-//    public void getByFilter() { //TODO: By email or carPlate
-//    }
 
 }

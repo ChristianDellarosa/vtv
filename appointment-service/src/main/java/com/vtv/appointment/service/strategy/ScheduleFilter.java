@@ -1,17 +1,17 @@
 package com.vtv.appointment.service.strategy;
 
-import com.vtv.appointment.model.dto.AppointmentQuery;
+import com.vtv.appointment.model.dto.ScheduleQuery;
 import lombok.Getter;
 import org.springframework.data.util.Pair;
 
 import java.time.ZonedDateTime;
 
 
-public abstract class AppointmentFilter {
+public abstract class ScheduleFilter {
     @Getter
-    protected final AppointmentQuery appointmentQuery;
-    public AppointmentFilter(AppointmentQuery appointmentQuery) {
-        this.appointmentQuery = appointmentQuery;
+    protected final ScheduleQuery scheduleQuery;
+    public ScheduleFilter(ScheduleQuery scheduleQuery) {
+        this.scheduleQuery = scheduleQuery;
     }
     public abstract Boolean canHandle();
 

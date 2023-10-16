@@ -1,6 +1,6 @@
 package com.vtv.appointment.service.strategy;
 
-import com.vtv.appointment.model.dto.AppointmentQuery;
+import com.vtv.appointment.model.dto.ScheduleQuery;
 import com.vtv.appointment.util.DateUtils;
 import org.springframework.data.util.Pair;
 
@@ -8,19 +8,18 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
 import java.util.Objects;
 
-public class AppointmentWithoutFilter extends AppointmentFilter {
-    public AppointmentWithoutFilter(AppointmentQuery appointmentQuery) {
-        super(appointmentQuery);
+public class ScheduleWithoutFilter extends ScheduleFilter {
+    public ScheduleWithoutFilter(ScheduleQuery scheduleQuery) {
+        super(scheduleQuery);
     }
 
     @Override
     public Boolean canHandle() {
-        return Objects.isNull(appointmentQuery.getMonth()) &&
-                Objects.isNull(appointmentQuery.getDayNumber()) &&
-                Objects.isNull(appointmentQuery.getHour());
+        return Objects.isNull(scheduleQuery.getMonth()) &&
+                Objects.isNull(scheduleQuery.getDayNumber()) &&
+                Objects.isNull(scheduleQuery.getHour());
     }
 
     @Override
