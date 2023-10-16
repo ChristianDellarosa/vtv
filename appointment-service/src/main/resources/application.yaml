@@ -1,0 +1,47 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+  data:
+    mongodb:
+      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      #mongodb://user:passw@localhost:27017/vtv?authSource=admin
+      auto-index-creation: true
+
+producer:
+  inspection:
+    queue-name: 'cola1'
+
+schedules:
+  months-enable:
+    - FEBRUARY
+    - MARCH
+    - APRIL
+    - MAY
+    - OCTOBER
+    - NOVEMBER
+    - DECEMBER
+  days-enable:
+    - MONDAY
+    - TUESDAY
+    - WEDNESDAY
+    - THURSDAY
+  hours-enable:
+    - 9
+    - 14
+    - 15
+    - 16
+    - 17
+  per-hour: 3
+  holiday-days:
+    - '2023-10-21'
+
+
+server:
+  port: 9820
