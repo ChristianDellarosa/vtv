@@ -1,4 +1,4 @@
-package com.vtv.inspection;
+package com.vtv.inspection.model.domain;
 
 public enum AppointmentType {
     INSPECTION,
