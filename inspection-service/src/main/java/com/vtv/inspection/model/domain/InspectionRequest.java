@@ -1,4 +1,4 @@
 package com.vtv.inspection.model.domain;
 
-public class InspectionResult {
+public class InspectionRequest {
 }

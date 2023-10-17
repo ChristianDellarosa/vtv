@@ -18,7 +18,7 @@ public class Inspection {
     private ZonedDateTime dateTime;
     private AppointmentType appointmentType;
     private InspectionStatus status;
-    private List<CheckStep> checkSteps;
+    private List<CheckableStep> checkSteps;
 
     public Integer getScoreResult() { //TODO: Calcula el score total de todos los pasos
         return null;

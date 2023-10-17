@@ -14,7 +14,8 @@ import java.time.ZonedDateTime;
 public class JacksonConfiguration {
     @Bean
     public MessageConverter jsonMessageConverter() {
-        return new Jackson2JsonMessageConverter(new ObjectMapper() //TODO: Ver como generar el bean
+        return new Jackson2JsonMessageConverter(
+                new ObjectMapper() //TODO: Ver como generar el bean
                 .registerModule(new JavaTimeModule())
                 .registerModule(new SimpleModule().addDeserializer(ZonedDateTime.class, new ZonedDateTimeDeserializer())));
 //TODO: Esta verga te cambia tambien el listener, sin esto no funciona
