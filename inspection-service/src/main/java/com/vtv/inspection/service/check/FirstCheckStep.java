@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirstCheckStep extends CheckableStep {
     @Override
-    public CheckableStepResult check() {
+    public CheckableStepResult check(String carPlate) {
         return CheckableStepResult.builder()
-                .score(10)
+                .name("FirstCheckStep") //TODO: Este this.getName() funciona si generamos el FirstcheckStep en un bean
+                .score(100)
                 .status(CheckStepStatus.SUCCESSFUL)
                 .build();
     }

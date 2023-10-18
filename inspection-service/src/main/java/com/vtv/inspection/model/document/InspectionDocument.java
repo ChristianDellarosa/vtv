@@ -3,6 +3,7 @@ package com.vtv.inspection.model.document;
 import com.vtv.inspection.model.domain.AppointmentType;
 import com.vtv.inspection.service.check.CheckableStep;
 import com.vtv.inspection.model.domain.InspectionStatus;
+import com.vtv.inspection.service.check.InspectionResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +27,6 @@ public class InspectionDocument {
     private ZonedDateTime dateTime;
     private AppointmentType appointmentType;
     private InspectionStatus status;
-    private List<CheckableStep> checkSteps;
+    private Integer score;
+    private InspectionResult result;
 }

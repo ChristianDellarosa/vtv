@@ -33,6 +33,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment create(Appointment appointment) {
+        //TODO: Revisar Logica ya que no puedo reservar un turno para hoy, entonces como voy a reparar algo que no es para hoy? como para hacer una demo
         //TODO: Analizar el orden de las validaciones
         log.info(appointment.toString());
 
@@ -73,11 +74,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         //6 Mandar el evento
         inspectionProducerService.orderInspection(OrderInspectionDto.builder()
-                        .clientEmail(appointment.getClientEmail())
-                        .carPlate(appointment.getCarPlate())
-                        .dateTime(appointment.getDateTime())
+                        .clientEmail(appointmentCreated.getClientEmail())
+                        .carPlate(appointmentCreated.getCarPlate())
+                        .dateTime(appointmentCreated.getDateTime())
                         .orderType(OrderType.CREATE)
-                        .appointmentType(appointment.getType())
+                        .appointmentType(appointmentCreated.getType())
                 .build());
 
         return appointmentCreated;

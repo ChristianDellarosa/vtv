@@ -6,7 +6,7 @@ import com.vtv.inspection.model.domain.Inspection;
 import java.util.List;
 
 public interface InspectionRepository {
-    Inspection save(Inspection inspection);
+    Inspection save(Inspection inspection); //save and update
 
     List<Inspection> getByCarPlateAndAppointmentType(String carPlate, AppointmentType appointmentType);
 }

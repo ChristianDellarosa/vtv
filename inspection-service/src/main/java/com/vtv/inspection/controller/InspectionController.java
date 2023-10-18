@@ -1,5 +1,7 @@
 package com.vtv.inspection.controller;
 
+import com.vtv.inspection.model.domain.AppointmentType;
+import com.vtv.inspection.model.domain.InspectionRequest;
 import com.vtv.inspection.model.dto.InspectionRequestDto;
 import com.vtv.inspection.model.dto.InspectionResultDto;
 import com.vtv.inspection.service.InspectionService;
@@ -26,8 +28,12 @@ public class InspectionController {
     }
 
     @PostMapping
-    public InspectionResultDto inspect(@Validated @RequestBody InspectionRequestDto InspectionDto) {
-        inspectionService.inspect(null);
+    public InspectionResultDto inspect(@Validated @RequestBody InspectionRequestDto inspectionRequestDto) {
+        inspectionService.inspect(
+                InspectionRequest.builder()
+                        .carPlate(inspectionRequestDto.getCarPlate())
+                        .type(inspectionRequestDto.getType())
+                        .build());
         return null;
     }
 

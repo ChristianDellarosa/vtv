@@ -20,7 +20,7 @@ public class InspectionResult {
         return results.stream().anyMatch(checkableStepResult -> checkableStepResult.getScore() < 5);
     }
 
-    private Integer calculateScore() {
+    public Integer calculateScore() {
         return results.stream()
                 .mapToInt(CheckableStepResult::getScore)
                 .sum();

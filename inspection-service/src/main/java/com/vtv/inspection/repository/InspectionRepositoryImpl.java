@@ -25,32 +25,37 @@ public class InspectionRepositoryImpl implements InspectionRepository {
     public Inspection save(Inspection inspection) {
         var inspectionCreated = mongoTemplate.save(
                 InspectionDocument.builder()
-                .appointmentType(inspection.getAppointmentType())
-                .carPlate(inspection.getCarPlate())
-                .status(inspection.getStatus())
-                .checkSteps(inspection.getCheckSteps())
-                .dateTime(inspection.getDateTime())
-                .build()
+                        .id(inspection.getId())
+                        .clientEmail(inspection.getClientEmail())
+                        .appointmentType(inspection.getAppointmentType())
+                        .carPlate(inspection.getCarPlate())
+                        .status(inspection.getStatus())
+                        .result(inspection.getResult())
+                        .score(inspection.getScore())
+                        .dateTime(inspection.getDateTime())
+                        .build()
         );
         return null;
     }
 
     @Override
     public List<Inspection> getByCarPlateAndAppointmentType(String carPlate, AppointmentType type) { //TODO: Ver si devolvemos lista o el ultimo o que devolvemos
-        final var inspections =
-                mongoTemplate.find(Query.query(Criteria
-                        .where("carPlate").is(carPlate)
-                        .and("appointmentType").is(type)), Inspection.class);
+        final var inspections = mongoTemplate.find(Query.query(Criteria
+                .where("carPlate").is(carPlate)
+                .and("appointmentType").is(type)), InspectionDocument.class);
 
         return inspections.stream()
-                .map(inspection -> Inspection.builder()
-                        .carPlate(inspection.getCarPlate())
-                        .clientEmail(inspection.getClientEmail())
-                        .dateTime(inspection.getDateTime())
-                        .status(inspection.getStatus())
-                        .clientEmail(inspection.getClientEmail())
-                        .appointmentType(inspection.getAppointmentType())
-                        .checkSteps(inspection.getCheckSteps())
+                .map(inspectionDocument -> Inspection.builder()
+                        .id(inspectionDocument.getId())
+                        .carPlate(inspectionDocument.getCarPlate())
+                        .clientEmail(inspectionDocument.getClientEmail())
+                        .dateTime(inspectionDocument.getDateTime())
+                        .status(inspectionDocument.getStatus())
+                        .clientEmail(inspectionDocument.getClientEmail())
+                        .appointmentType(inspectionDocument.getAppointmentType())
+                        .status(inspectionDocument.getStatus())
+                        .result(inspectionDocument.getResult())
+                        .score(inspectionDocument.getScore())
                         .build())
                 .toList();
     }
