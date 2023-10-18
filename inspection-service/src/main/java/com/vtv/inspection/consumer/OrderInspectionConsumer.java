@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class OrderInspectionConsumerServiceImpl {
+public class OrderInspectionConsumer {
 
     private final OrderInspectionService orderInspectionService;
 
-    public OrderInspectionConsumerServiceImpl(OrderInspectionService orderInspectionService) {
+    public OrderInspectionConsumer(OrderInspectionService orderInspectionService) {
         this.orderInspectionService = orderInspectionService;
     }
 
-    @RabbitListener(queues = "${}")
+    @RabbitListener(queues = "cola1")
     public void receive(@Payload InspectionOrderDto message) { //TODO: Analizar si el OrderType puede viajar por header
         log.info("Received JSON message {}", message.toString());
         orderInspectionService.processOrder(

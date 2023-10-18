@@ -1,7 +1,7 @@
 package com.vtv.inspection.model.document;
 
 import com.vtv.inspection.model.domain.AppointmentType;
-import com.vtv.inspection.model.domain.CheckableStep;
+import com.vtv.inspection.service.check.CheckableStep;
 import com.vtv.inspection.model.domain.InspectionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
