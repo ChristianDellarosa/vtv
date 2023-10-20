@@ -1,6 +1,5 @@
 package com.vtv.inspection.model.domain;
 
-import com.vtv.inspection.service.check.InspectionResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +18,6 @@ public class Inspection {
     private ZonedDateTime dateTime;
     private AppointmentType appointmentType;
     private InspectionStatus status;
-    private Integer score;
-    private InspectionResult result;
+    private Integer score; //TODO: Analizar si va aca
+    private InspectionResult result; //TODO: Details
 }

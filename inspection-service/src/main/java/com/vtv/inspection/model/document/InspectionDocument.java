@@ -1,9 +1,8 @@
 package com.vtv.inspection.model.document;
 
 import com.vtv.inspection.model.domain.AppointmentType;
-import com.vtv.inspection.service.check.CheckableStep;
 import com.vtv.inspection.model.domain.InspectionStatus;
-import com.vtv.inspection.service.check.InspectionResult;
+import com.vtv.inspection.model.domain.InspectionResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Data
 @Builder

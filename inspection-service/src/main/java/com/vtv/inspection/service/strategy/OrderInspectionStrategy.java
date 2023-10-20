@@ -7,6 +7,5 @@ public interface OrderInspectionStrategy {
 
     void execute (InspectionOrder inspectionOrder);
     //TODO: La estrategia del save y la del update
-
     OrderType getType();
 }
