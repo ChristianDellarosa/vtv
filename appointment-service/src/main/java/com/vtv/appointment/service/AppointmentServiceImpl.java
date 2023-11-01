@@ -33,17 +33,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment create(Appointment appointment) {
+        //TODO: Revisar Logica ya que no puedo reservar un turno para hoy, entonces como voy a reparar algo que no es para hoy? como para hacer una demo
         //TODO: Analizar el orden de las validaciones
         log.info(appointment.toString());
 
         //1) Buscar si ya no tenia un turno de revision previo
-        final var appointmentsByCarPlate = appointmentRepository.getByCarPlate(appointment.getCarPlate());
-        appointmentsByCarPlate.stream()
-                .filter(Appointment::isInspection)
-                .findFirst().ifPresent(appointment1 -> {
-                    throw new  RuntimeException(""); //Todo: usted tiene un turno asignado previamente para el dia ...
-        }); //Checkea si tenia un turno asignado previamente
+        //TODO: BUG: No te deja sacar RE_INSPECCIONES
 
+        final var appointmentsByCarPlate = appointmentRepository.getByCarPlate(appointment.getCarPlate());
+
+        if(appointment.isInspection()) {
+            appointmentsByCarPlate.stream()
+                    .filter(Appointment::isInspection)
+                    .findFirst().ifPresent(appointment1 -> {
+                        throw new  RuntimeException(""); //Todo: usted tiene un turno asignado previamente para el dia ...
+                    }); //Checkea si tenia un turno asignado previamente
+        }
 
         //2: Si es una re-reparacion, deberá chequearse que es posterior al turno de reparacion
         //   Si es una re-reparacion, y se asigna un nuevo turno (para re-re-repararlo) ese turno deberá ser posterior a la re-reparacion que ya tenia
@@ -55,11 +60,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         //3) Buscar si la fecha es valida en nuestras condiciones
         if(!scheduleService.isValidDate(appointment.getDateTime()) || !scheduleService.isValidTime(appointment.getDateTime().toLocalTime())) {
             //THROW: ERROR: El turno no es valido 400
+            throw new  RuntimeException("");
         }
 
         //4) si hay turnos disponibles en base a la cantidad por horario
         if(!scheduleService.isAvailableDateTime(appointment.getDateTime())) {
             //THROW: ERROR: El turno no esta disponible 409
+            throw new  RuntimeException("");
         }
 
         //5 Reservar
@@ -67,11 +74,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         //6 Mandar el evento
         inspectionProducerService.orderInspection(OrderInspectionDto.builder()
-                        .clientEmail(appointment.getClientEmail())
-                        .carPlate(appointment.getCarPlate())
-                        .dateTime(appointment.getDateTime())
+                        .clientEmail(appointmentCreated.getClientEmail())
+                        .carPlate(appointmentCreated.getCarPlate())
+                        .dateTime(appointmentCreated.getDateTime())
                         .orderType(OrderType.CREATE)
-                        .appointmentType(appointment.getType())
+                        .appointmentType(appointmentCreated.getType())
                 .build());
 
         return appointmentCreated;
