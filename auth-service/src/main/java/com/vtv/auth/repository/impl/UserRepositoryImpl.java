@@ -22,11 +22,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getAll() {
-        return users.stream().toList();
-    }
-
-    @Override
     public Optional<User> getByUsername(String username) {
         return users.stream()
                 .filter(user -> user.username().equals(username))

@@ -2,6 +2,7 @@ package com.vtv.auth.controller;
 
 import com.vtv.auth.service.SessionService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class SessionController {
     }
 
     @PostMapping
-    public void validateSessionToken(@RequestHeader(name="Authorization") String token) {
+    public void validateSessionToken(@RequestHeader(name=HttpHeaders.AUTHORIZATION) String token) {
         sessionService.validateSession(token);
     }
 }

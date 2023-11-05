@@ -14,6 +14,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void validateSession(String token) {
-        tokenService.validate(token); //TODO: Falta manejo de errores
+        tokenService.validate(token);
     }
 }

@@ -1,9 +1,9 @@
 package com.vtv.auth.controller;
 
 import com.vtv.auth.model.SignIn;
-import com.vtv.auth.model.SignInRequest;
 import com.vtv.auth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign-in")
-    public SignIn signIn(@RequestHeader(name="Authorization") String basicAuthorizationToken) {
+    public SignIn signIn(@RequestHeader(name= HttpHeaders.AUTHORIZATION) String basicAuthorizationToken) {
         return authService.signIn(basicAuthorizationToken);
     }
 }
