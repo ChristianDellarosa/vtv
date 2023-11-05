@@ -5,7 +5,7 @@ import com.vtv.inspection.model.domain.InspectionRequest;
 
 public interface InspectionService {
 
-    Inspection inspect(InspectionRequest inspectionRequest); //TODO: Ver si solo con el carPlate
+    Inspection inspect(String authToken, InspectionRequest inspectionRequest); //TODO: Ver si solo con el carPlate
 
     Inspection getByCarPlate(String carPlate); //TODO: Ver si solo con el carPlate
 }

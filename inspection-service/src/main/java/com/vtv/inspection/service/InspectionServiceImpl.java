@@ -1,8 +1,10 @@
 package com.vtv.inspection.service;
 
+import com.vtv.inspection.client.AuthClient;
 import com.vtv.inspection.model.domain.*;
 import com.vtv.inspection.repository.InspectionRepository;
 import com.vtv.inspection.service.check.CheckableStep;
+import jakarta.websocket.SessionException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,18 @@ public class InspectionServiceImpl implements InspectionService {
 
     private final InspectionRepository inspectionRepository;
 
-    public InspectionServiceImpl(List<CheckableStep> checkableSteps, InspectionRepository inspectionRepository) {
+    private final AuthClient authClient;
+
+    public InspectionServiceImpl(List<CheckableStep> checkableSteps, InspectionRepository inspectionRepository, AuthClient authClient) {
         this.checkableSteps = checkableSteps;
         this.inspectionRepository = inspectionRepository;
+        this.authClient = authClient;
     }
 
     @Override
-    public Inspection inspect(InspectionRequest inspectionRequest) {
+    public Inspection inspect(String sessionToken, InspectionRequest inspectionRequest) {
+
+
 
         //TODO: Podriamos separar inspeccion de inspection order
         final var inspections = inspectionRepository.getByCarPlateAndAppointmentType(inspectionRequest.getCarPlate(), inspectionRequest.getType());
@@ -57,5 +64,15 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     public Inspection getByCarPlate(String carPlate) {
         return null;
+    } //TODO: Completar
+
+
+    private void validateSession(String sessionToken) {
+        try {
+            this.authClient.validateSession(sessionToken); // TODO: A futuro deberia ser un filtro, interceptor o algo de ese estilo
+        } catch (Exception exception) {
+            throw new RuntimeException(""); //TODO: Armar excepcioens de negocio
+        }
+
     }
 }

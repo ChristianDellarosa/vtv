@@ -23,8 +23,8 @@ public class InspectionController {
     }
 
     @PostMapping
-    public Inspection inspect(@Validated @RequestBody InspectionRequestDto inspectionRequestDto) {
-        return inspectionService.inspect(
+    public Inspection inspect(@Validated @RequestBody InspectionRequestDto inspectionRequestDto, @RequestHeader(name="Authorization") String sessionToken) {
+        return inspectionService.inspect(sessionToken,
                 InspectionRequest.builder()
                         .carPlate(inspectionRequestDto.getCarPlate())
                         .type(inspectionRequestDto.getType())
