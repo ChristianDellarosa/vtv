@@ -1,21 +1,15 @@
-package com.vtv.inspection;
+package com.vtv.inspection.model.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderInspectionDto {
+public class InspectionRequest {
     private String carPlate;
-    private String clientEmail;
-    private LocalDateTime dateTime;
     private AppointmentType type;
 }
