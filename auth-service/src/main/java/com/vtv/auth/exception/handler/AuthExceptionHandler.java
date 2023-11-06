@@ -7,7 +7,6 @@ import com.vtv.auth.exception.UserNotFoundException;
 import com.vtv.auth.model.commons.ApiError;
 import com.vtv.auth.model.commons.ApiErrorDetail;
 import com.vtv.auth.model.commons.ExceptionError;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @ControllerAdvice
-@Slf4j
 public class AuthExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ApiError> handleUserNotFoundException(SessionException exception, WebRequest request) {
+    public ResponseEntity<ApiError> handleUserNotFoundException(UserNotFoundException exception, WebRequest request) {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
