@@ -1,9 +1,9 @@
 package com.vtv.auth.utils;
 
 import com.vtv.auth.exception.GenericServerInternalException;
-import com.vtv.auth.model.BasicAuthentication;
-import com.vtv.auth.model.commons.ErrorDetail;
-import com.vtv.auth.model.commons.ExceptionError;
+import com.vtv.auth.domain.BasicAuthentication;
+import com.vtv.auth.domain.commons.ErrorDetail;
+import com.vtv.auth.domain.commons.ExceptionError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 

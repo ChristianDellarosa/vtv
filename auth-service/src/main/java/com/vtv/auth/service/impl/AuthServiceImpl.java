@@ -1,9 +1,9 @@
 package com.vtv.auth.service.impl;
 
 import com.vtv.auth.exception.UserNotFoundException;
-import com.vtv.auth.model.SignIn;
-import com.vtv.auth.model.commons.ErrorDetail;
-import com.vtv.auth.model.commons.ExceptionError;
+import com.vtv.auth.domain.SignIn;
+import com.vtv.auth.domain.commons.ErrorDetail;
+import com.vtv.auth.domain.commons.ExceptionError;
 import com.vtv.auth.repository.UserRepository;
 import com.vtv.auth.service.AuthService;
 import com.vtv.auth.service.TokenService;

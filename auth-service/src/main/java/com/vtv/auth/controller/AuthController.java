@@ -1,6 +1,6 @@
 package com.vtv.auth.controller;
 
-import com.vtv.auth.model.SignIn;
+import com.vtv.auth.domain.SignIn;
 import com.vtv.auth.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

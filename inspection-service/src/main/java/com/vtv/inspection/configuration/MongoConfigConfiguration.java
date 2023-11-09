@@ -17,7 +17,7 @@ import java.util.List;
 public class MongoConfigConfiguration {
 
     @ReadingConverter
-    public class ZonedDateTimeReadConverter implements Converter<Date, ZonedDateTime> {
+    public static class ZonedDateTimeReadConverter implements Converter<Date, ZonedDateTime> {
         @Override
         public ZonedDateTime convert(Date date) {
             return date.toInstant().atZone(DateUtils.getZoneId()); //TODO: Esto me trae bien los datos
@@ -25,7 +25,7 @@ public class MongoConfigConfiguration {
     }
 
     @WritingConverter
-    public class ZonedDateTimeWriteConverter implements Converter<ZonedDateTime, Date> {
+    public static class ZonedDateTimeWriteConverter implements Converter<ZonedDateTime, Date> {
         @Override
         public Date convert(ZonedDateTime zonedDateTime) {
             return Date.from(zonedDateTime.toInstant());

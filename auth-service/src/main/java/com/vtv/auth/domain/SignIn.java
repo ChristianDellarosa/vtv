@@ -1,4 +1,4 @@
-package com.vtv.auth.model;
+package com.vtv.auth.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

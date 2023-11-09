@@ -10,7 +10,7 @@ public class RegulatoryLightsCheckStep implements CheckableStep {
     private static final Integer SCORE = 10;
 
     @Override
-    public CheckableStepResult check(String carPlate) {
+    public CheckableStepResult check(String carPlate) { //TODO: Ver de hacer algo randomizado para simular el ejemplo
 
         return CheckableStepResult.builder()
                 .name(CheckableStepName.REGULATORY_LIGHTS)

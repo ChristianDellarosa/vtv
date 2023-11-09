@@ -19,9 +19,9 @@ public class OrderInspectionConsumer {
         this.orderInspectionService = orderInspectionService;
     }
 
-    @RabbitListener(queues = "cola1")
+    @RabbitListener(queues = "${queues.appointment}")
     public void receive(@Payload InspectionOrderDto message) { //TODO: Analizar si el OrderType puede viajar por header
-        log.info("Received JSON message {}", message.toString());
+        log.info("Process Order {}", message.toString());
         orderInspectionService.processOrder(
                 InspectionOrder.builder()
                         .appointmentType(message.getAppointmentType())
@@ -30,7 +30,5 @@ public class OrderInspectionConsumer {
                         .carPlate(message.getCarPlate())
                         .orderType(message.getOrderType())
                         .build());
-        //Strategy -> Si es CREATE -> Guardar en la base la orden, Si es Update -> Buscarla y actualizarla (Para otro momento)
-        //TODO: Tener clase reparaciones con ESTADO PENDING o ordenes de reparaciones y reparaciones?
     }
 }

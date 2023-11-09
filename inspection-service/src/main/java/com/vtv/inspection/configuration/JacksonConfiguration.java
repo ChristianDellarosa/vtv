@@ -18,6 +18,5 @@ public class JacksonConfiguration {
                 new ObjectMapper() //TODO: Ver como generar el bean
                 .registerModule(new JavaTimeModule())
                 .registerModule(new SimpleModule().addDeserializer(ZonedDateTime.class, new ZonedDateTimeDeserializer())));
-//TODO: Esta verga te cambia tambien el listener, sin esto no funciona
     }
 }

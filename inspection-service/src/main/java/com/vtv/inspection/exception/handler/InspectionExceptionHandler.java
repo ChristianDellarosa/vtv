@@ -1,12 +1,11 @@
-package com.vtv.auth.exception.handler;
+package com.vtv.inspection.exception.handler;
 
 
-import com.vtv.auth.exception.GenericServerInternalException;
-import com.vtv.auth.exception.SessionException;
-import com.vtv.auth.exception.UserNotFoundException;
-import com.vtv.auth.domain.commons.ApiError;
-import com.vtv.auth.domain.commons.ApiErrorDetail;
-import com.vtv.auth.domain.commons.ExceptionError;
+import com.vtv.inspection.exception.GenericServerInternalException;
+import com.vtv.inspection.exception.OrderInspectionStrategyNotExistsException;
+import com.vtv.inspection.model.domain.commons.ApiError;
+import com.vtv.inspection.model.domain.commons.ApiErrorDetail;
+import com.vtv.inspection.model.domain.commons.ExceptionError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,23 +20,13 @@ import java.util.Objects;
 
 @ControllerAdvice
 @Slf4j
-public class AuthExceptionHandler {
+public class InspectionExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ApiError> handleUserNotFoundException(SessionException exception, WebRequest request) {
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(buildApiError(exception.getExceptionError(), request));
-    }
-
-
-    @ExceptionHandler(SessionException.class)
-    public ResponseEntity<ApiError> handleSessionException(SessionException exception, WebRequest request) {
+    @ExceptionHandler(OrderInspectionStrategyNotExistsException.class)
+    public ResponseEntity<ApiError> handleUserNotFoundException(OrderInspectionStrategyNotExistsException exception, WebRequest request) {
 
         return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
+                .status(HttpStatus.BAD_REQUEST)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(buildApiError(exception.getExceptionError(), request));
     }

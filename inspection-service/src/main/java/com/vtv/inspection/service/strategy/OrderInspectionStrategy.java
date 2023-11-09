@@ -6,6 +6,5 @@ import com.vtv.inspection.model.domain.OrderType;
 public interface OrderInspectionStrategy {
 
     void execute (InspectionOrder inspectionOrder);
-    //TODO: La estrategia del save y la del update
     OrderType getType();
 }

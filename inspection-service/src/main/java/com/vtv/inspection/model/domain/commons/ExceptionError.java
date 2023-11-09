@@ -1,4 +1,4 @@
-package com.vtv.auth.model.commons;
+package com.vtv.inspection.model.domain.commons;
 
 import lombok.Builder;
 

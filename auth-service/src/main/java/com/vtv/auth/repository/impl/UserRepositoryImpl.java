@@ -1,10 +1,9 @@
 package com.vtv.auth.repository.impl;
 
-import com.vtv.auth.model.User;
+import com.vtv.auth.domain.User;
 import com.vtv.auth.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
