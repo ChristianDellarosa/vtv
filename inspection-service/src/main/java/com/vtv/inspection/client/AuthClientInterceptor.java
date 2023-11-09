@@ -20,10 +20,15 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //TODO: add Test for interceptor
     private final ObjectMapper mapper;
-
     private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_DESCRIPTION = "The strategy to process inspection order does not exist";
     private static final Integer ORDER_INSPECTION_STRATEGY_NOT_EXISTS_CODE = 300;
     private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_MESSAGE = "The order Inspection strategy not exists";
+
+    private static final String INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE = "An error occurs when validate session for user";
+    private static final Integer INTERNAL_ERROR_ON_VALIDATE_SESSION_CODE = 310;
+
+    private static final String UNKNOWN_ERROR_MESSAGE = "Unknown error";
+    private static final Integer UNKNOWN_ERROR_CODE = 999;
 
     public AuthClientInterceptor(ObjectMapper mapper) {
         this.mapper = mapper;
@@ -37,7 +42,6 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
 
         if(httpResponse.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
             final ApiError apiError = mapToApiError(httpResponse);
-
             throw new GenericUnauthorizedException(
                     ExceptionError.builder()
                             .description(apiError.getDescription())
@@ -50,10 +54,10 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
         if(httpResponse.getStatusCode().is5xxServerError()) {
             throw new GenericServerInternalException( //TODO: En realidad esto debería ser un error no manejado,
                     ExceptionError.builder()
-                            .description("internal error")
+                            .description(INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(30)
-                                    .message("ver mensaje de error stactrace?")
+                                    .code(INTERNAL_ERROR_ON_VALIDATE_SESSION_CODE)
+                                    .message(INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE)
                                     .build())
                             .build());
         }
@@ -70,12 +74,12 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
             }
 
             log.info("Response body is empty {}", result);
-            throw new GenericServerInternalException( //TODO: En realidad esto debería ser un error no manejado,
+            throw new GenericServerInternalException(
                     ExceptionError.builder()
-                            .description("Unknown Error") //TODO: Ver
+                            .description(UNKNOWN_ERROR_MESSAGE)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(100)
-                                    .message("Unknown Error")
+                                    .code(UNKNOWN_ERROR_CODE)
+                                    .message(UNKNOWN_ERROR_MESSAGE)
                                     .build())
                             .build());
 
