@@ -21,5 +21,10 @@ client:
 queues:
   appointment: 'cola1'
 
+
+check-test:
+  is-fail-check-case: false
+  is-less-than-five-points-check-case: false
+
 server:
   port: 8081

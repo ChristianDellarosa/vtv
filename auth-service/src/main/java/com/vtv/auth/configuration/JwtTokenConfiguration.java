@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "token.basic-auth")
 public class JwtTokenConfiguration {
-
     private Integer expireAtInSeconds;
     private String secret;
 }

@@ -1,8 +1,8 @@
 package com.vtv.inspection.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vtv.inspection.exception.GenericServerInternalException;
-import com.vtv.inspection.exception.GenericUnauthorizedException;
+import com.vtv.inspection.exception.commons.GenericServerInternalException;
+import com.vtv.inspection.exception.commons.GenericUnauthorizedException;
 import com.vtv.inspection.model.domain.commons.ApiError;
 import com.vtv.inspection.model.domain.commons.ErrorDetail;
 import com.vtv.inspection.model.domain.commons.ExceptionError;

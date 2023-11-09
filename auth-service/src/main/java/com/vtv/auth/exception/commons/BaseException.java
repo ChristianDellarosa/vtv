@@ -1,6 +1,6 @@
-package com.vtv.inspection.exception;
+package com.vtv.auth.exception.commons;
 
-import com.vtv.inspection.model.domain.commons.ExceptionError;
+import com.vtv.auth.domain.commons.ExceptionError;
 import lombok.Getter;
 import lombok.ToString;
 

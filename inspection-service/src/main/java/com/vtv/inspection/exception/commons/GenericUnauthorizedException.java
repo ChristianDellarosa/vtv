@@ -1,4 +1,4 @@
-package com.vtv.inspection.exception;
+package com.vtv.inspection.exception.commons;
 
 import com.vtv.inspection.model.domain.commons.ExceptionError;
 import lombok.Getter;

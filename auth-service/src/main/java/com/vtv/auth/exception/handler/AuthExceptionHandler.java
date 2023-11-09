@@ -1,7 +1,7 @@
 package com.vtv.auth.exception.handler;
 
 
-import com.vtv.auth.exception.GenericServerInternalException;
+import com.vtv.auth.exception.commons.GenericServerInternalException;
 import com.vtv.auth.exception.SessionException;
 import com.vtv.auth.exception.UserNotFoundException;
 import com.vtv.auth.domain.commons.ApiError;

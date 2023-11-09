@@ -1,8 +1,7 @@
 package com.vtv.inspection.exception.handler;
 
 
-import com.vtv.inspection.exception.GenericServerInternalException;
-import com.vtv.inspection.exception.OrderInspectionStrategyNotExistsException;
+import com.vtv.inspection.exception.*;
 import com.vtv.inspection.model.domain.commons.ApiError;
 import com.vtv.inspection.model.domain.commons.ApiErrorDetail;
 import com.vtv.inspection.model.domain.commons.ExceptionError;
@@ -19,8 +18,34 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @ControllerAdvice
-@Slf4j
 public class InspectionExceptionHandler {
+
+    @ExceptionHandler(InvalidInspectionException.class)
+    public ResponseEntity<ApiError> handleInvalidInspectionException(InvalidInspectionException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
+
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public ResponseEntity<ApiError> handleUnauthorizedUserException(UnauthorizedUserException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
+
+    @ExceptionHandler(InspectionErrorException.class)
+    public ResponseEntity<ApiError> handleInspectionErrorException(InspectionErrorException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
 
     @ExceptionHandler(OrderInspectionStrategyNotExistsException.class)
     public ResponseEntity<ApiError> handleUserNotFoundException(OrderInspectionStrategyNotExistsException exception, WebRequest request) {
@@ -31,14 +56,23 @@ public class InspectionExceptionHandler {
                 .body(buildApiError(exception.getExceptionError(), request));
     }
 
-    @ExceptionHandler(GenericServerInternalException.class)
-    public ResponseEntity<ApiError> handleGenericServerInternalException(GenericServerInternalException exception, WebRequest request) {
+    //    @ExceptionHandler(GenericUnauthorizedException.class)
+//    public ResponseEntity<ApiError> handleGenericUnauthorizedException(GenericUnauthorizedException exception, WebRequest request) {
+//
+//        return ResponseEntity
+//                .status(HttpStatus.UNAUTHORIZED)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(buildApiError(exception.getExceptionError(), request));
+//    }
 
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(buildApiError(exception.getExceptionError(), request));
-    }
+//    @ExceptionHandler(GenericServerInternalException.class) //TODO: Quizas no deberia estar, porque no es de negocio, nadie deberia lanzar esta excepcion?
+//    public ResponseEntity<ApiError> handleGenericServerInternalException(GenericServerInternalException exception, WebRequest request) {
+//
+//        return ResponseEntity
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(buildApiError(exception.getExceptionError(), request));
+//    }
 
     private ApiError buildApiError(ExceptionError exceptionError, WebRequest request) {
         return ApiError.builder()

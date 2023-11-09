@@ -18,6 +18,10 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 @Document(collection = "inspections")
 public class InspectionDocument {
+
+    public final static String CAR_PLATE_NAME_FIELD = "carPlate";
+    public final static String APPOINTMENT_TYPE_NAME_FIELD = "appointmentType";
+
     @MongoId
     private String id;
     private String carPlate;

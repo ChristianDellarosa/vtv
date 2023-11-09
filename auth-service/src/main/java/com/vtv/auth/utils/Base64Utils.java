@@ -1,6 +1,6 @@
 package com.vtv.auth.utils;
 
-import com.vtv.auth.exception.GenericServerInternalException;
+import com.vtv.auth.exception.commons.GenericServerInternalException;
 import com.vtv.auth.domain.BasicAuthentication;
 import com.vtv.auth.domain.commons.ErrorDetail;
 import com.vtv.auth.domain.commons.ExceptionError;

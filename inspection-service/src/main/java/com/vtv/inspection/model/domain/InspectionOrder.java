@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class InspectionOrder {
     private String carPlate;
     private String clientEmail;

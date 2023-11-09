@@ -5,7 +5,7 @@ import com.vtv.inspection.model.domain.CheckableStepName;
 import com.vtv.inspection.model.domain.CheckableStepResult;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component //TODO: Generar anotation @Check
 public class ChassisCheckStep implements CheckableStep{
     private static final Integer SCORE = 10;
 

@@ -20,7 +20,7 @@ public class OrderInspectionConsumer {
     }
 
     @RabbitListener(queues = "${queues.appointment}")
-    public void receive(@Payload InspectionOrderDto message) { //TODO: Analizar si el OrderType puede viajar por header
+    public void receive(@Payload InspectionOrderDto message) {
         log.info("Process Order {}", message.toString());
         orderInspectionService.processOrder(
                 InspectionOrder.builder()

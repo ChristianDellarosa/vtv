@@ -1,8 +1,9 @@
 package com.vtv.inspection.service;
 
 import com.vtv.inspection.client.AuthClient;
-import com.vtv.inspection.exception.GenericServerInternalException;
-import com.vtv.inspection.exception.GenericUnauthorizedException;
+import com.vtv.inspection.exception.GenericDatabaseException;
+import com.vtv.inspection.exception.commons.GenericServerInternalException;
+import com.vtv.inspection.exception.commons.GenericUnauthorizedException;
 import com.vtv.inspection.exception.InspectionErrorException;
 import com.vtv.inspection.exception.InvalidInspectionException;
 import com.vtv.inspection.exception.UnauthorizedUserException;
@@ -50,10 +51,34 @@ public class InspectionServiceImpl implements InspectionService {
         validateSession(sessionToken);
 
         //TODO: Podriamos separar inspeccion de inspection order
-        final var inspections = inspectionRepository.getByCarPlateAndAppointmentType(inspectionRequest.getCarPlate(), inspectionRequest.getType());
+        final Inspection inspection = getInspection(inspectionRequest);
+
+        final InspectionResult result = inspectCar(inspection);
+
+        inspection.setResult(result);
+        inspection.setScore(result.calculateScore());
+        inspection.setStatus(result.calculateStatus());
+
+        saveInspection(inspection);
+
+        return inspection;
+    }
+
+    private InspectionResult inspectCar(Inspection inspection) {
+        final List<CheckableStepResult> checkableStepResults = checkableSteps.stream()
+                .map(checkableStep -> checkableStep.check(inspection.getCarPlate()))
+                .toList();
+
+        return InspectionResult.builder()
+                .checkableStepResults(checkableStepResults)
+                .build();
+    }
+
+    private Inspection getInspection(InspectionRequest inspectionRequest) {
+        final List<Inspection> inspections = getInspectionsByCarPlateAndAppointmentType(inspectionRequest);
 
         //TODO: Solo reparar si la fecha es la de hoy, no se pueden reparar autos de dias anteriores ni posteriores, solos del dia de la fecha
-        final Inspection inspection = inspections
+        return inspections
                 .stream()
                 .filter(insp -> InspectionStatus.PENDING.equals(insp.getStatus())
                         && insp.getDateTime().getDayOfYear() == ZonedDateTime.now().getDayOfYear()) //TODO: Que sea del dia de hoy y que este pendiente
@@ -69,52 +94,82 @@ public class InspectionServiceImpl implements InspectionService {
                                             .build())
                                     .build());
                 });
-
-        final List<CheckableStepResult> checkableStepResults = checkableSteps.stream()
-                .map(checkableStep -> checkableStep.check(inspection.getCarPlate()))
-                .toList();
-
-        final var result = InspectionResult.builder()
-                .checkableStepResults(checkableStepResults)
-                .build();
-
-        inspection.setResult(result);
-        inspection.setScore(result.calculateScore());
-        inspection.setStatus(result.calculateStatus());
-        inspectionRepository.save(inspection);
-
-        return inspection;
     }
+
+    private List<Inspection> getInspectionsByCarPlateAndAppointmentType(InspectionRequest inspectionRequest) {
+        List<Inspection> inspections;
+        try {
+            inspections = inspectionRepository.getByCarPlateAndAppointmentType(inspectionRequest.getCarPlate(), inspectionRequest.getType());
+        } catch (GenericDatabaseException genericDatabaseException) {
+            throw new InspectionErrorException( //TODO: Quizas tiene sentido otra excepcion
+                    ExceptionError.builder()
+                            .description(genericDatabaseException.getExceptionError().description())
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(genericDatabaseException.getExceptionError().errorDetail().code())
+                                    .message(genericDatabaseException.getExceptionError().errorDetail().message())
+                                    .build())
+                            .build(), genericDatabaseException.getCause());
+        }
+        return inspections;
+    }
+
 
     @Override
     public List<Inspection> getByCarPlate(String carPlate) {
-        return inspectionRepository.getByCarPlate(carPlate);
+        try {
+            return inspectionRepository.getByCarPlate(carPlate);
+        } catch (GenericDatabaseException genericDatabaseException) {
+            throw new InspectionErrorException( //TODO: Quizas tiene sentido otra excepcion
+                    ExceptionError.builder()
+                            .description(genericDatabaseException.getExceptionError().description())
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(genericDatabaseException.getExceptionError().errorDetail().code())
+                                    .message(genericDatabaseException.getExceptionError().errorDetail().message())
+                                    .build())
+                            .build(), genericDatabaseException.getCause());
+        }
+
+    }
+
+    private void saveInspection(Inspection inspection) {
+        try {
+            inspectionRepository.save(inspection);
+        } catch (GenericDatabaseException genericDatabaseException) {
+            throw new InspectionErrorException(
+                    ExceptionError.builder()
+                            .description(genericDatabaseException.getExceptionError().description())
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(genericDatabaseException.getExceptionError().errorDetail().code())
+                                    .message(genericDatabaseException.getExceptionError().errorDetail().message())
+                                    .build())
+                            .build(), genericDatabaseException.getCause());
+        }
     }
 
 
     private void validateSession(String sessionToken) {
         try {
             this.authClient.validateSession(sessionToken); // TODO: A futuro deberia ser un filtro, interceptor o algo de ese estilo
-        } catch (GenericUnauthorizedException genericUnauthorizedException) {
-            log.info(UNAUTHORIZED_USER_DESCRIPTION, genericUnauthorizedException);
+        } catch (GenericUnauthorizedException unauthorizedException) {
+            log.info(UNAUTHORIZED_USER_DESCRIPTION, unauthorizedException);
             throw new UnauthorizedUserException(
                     ExceptionError.builder()
                             .description(UNAUTHORIZED_USER_DESCRIPTION)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(genericUnauthorizedException.getExceptionError().errorDetail().code())
-                                    .message(genericUnauthorizedException.getExceptionError().errorDetail().message())
+                                    .code(unauthorizedException.getExceptionError().errorDetail().code())
+                                    .message(unauthorizedException.getExceptionError().errorDetail().message())
                                     .build())
                             .build());
-        }  catch (GenericServerInternalException genericServerInternalException) {
-            log.error(VALIDATE_SESSION_ERROR_DESCRIPTION, genericServerInternalException);
+        } catch (GenericServerInternalException serverInternalException) {
+            log.error(VALIDATE_SESSION_ERROR_DESCRIPTION, serverInternalException);
             throw new InspectionErrorException(
                     ExceptionError.builder()
                             .description(VALIDATE_SESSION_ERROR_DESCRIPTION)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(genericServerInternalException.getExceptionError().errorDetail().code())
-                                    .message(genericServerInternalException.getExceptionError().errorDetail().message())
+                                    .code(serverInternalException.getExceptionError().errorDetail().code())
+                                    .message(serverInternalException.getExceptionError().errorDetail().message())
                                     .build())
-                            .build());
+                            .build(), serverInternalException);
         }
 
     }

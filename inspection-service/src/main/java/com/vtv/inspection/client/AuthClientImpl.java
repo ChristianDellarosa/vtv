@@ -1,15 +1,14 @@
 package com.vtv.inspection.client;
 
 import com.vtv.inspection.configuration.AuthClientConfiguration;
-import com.vtv.inspection.exception.GenericServerInternalException;
-import com.vtv.inspection.exception.GenericUnauthorizedException;
+import com.vtv.inspection.exception.commons.GenericServerInternalException;
+import com.vtv.inspection.exception.commons.GenericUnauthorizedException;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 

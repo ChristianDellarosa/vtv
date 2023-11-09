@@ -7,8 +7,9 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class InvalidInspectionException extends BaseException {
-    public InvalidInspectionException(ExceptionError exceptionError) {
-        super(exceptionError);
+public class GenericDatabaseException extends BaseException {
+
+    public GenericDatabaseException(ExceptionError exceptionError, Throwable cause) {
+        super(exceptionError, cause);
     }
 }
