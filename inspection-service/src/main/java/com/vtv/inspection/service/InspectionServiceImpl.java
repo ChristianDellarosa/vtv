@@ -1,7 +1,7 @@
 package com.vtv.inspection.service;
 
 import com.vtv.inspection.client.AuthClient;
-import com.vtv.inspection.exception.GenericDatabaseException;
+import com.vtv.inspection.exception.commons.GenericDatabaseException;
 import com.vtv.inspection.exception.commons.GenericServerInternalException;
 import com.vtv.inspection.exception.commons.GenericUnauthorizedException;
 import com.vtv.inspection.exception.InspectionErrorException;

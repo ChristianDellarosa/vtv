@@ -1,7 +1,7 @@
 package com.vtv.inspection.repository;
 
 import com.mongodb.MongoException;
-import com.vtv.inspection.exception.GenericDatabaseException;
+import com.vtv.inspection.exception.commons.GenericDatabaseException;
 import com.vtv.inspection.model.document.InspectionDocument;
 import com.vtv.inspection.model.domain.AppointmentType;
 import com.vtv.inspection.model.domain.Inspection;
