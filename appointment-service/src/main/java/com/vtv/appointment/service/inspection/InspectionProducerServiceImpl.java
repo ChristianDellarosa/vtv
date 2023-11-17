@@ -1,6 +1,7 @@
 package com.vtv.appointment.service.inspection;
 
 import com.vtv.appointment.client.ProducerClient;
+import com.vtv.appointment.exception.OrderInspectionErrorException;
 import com.vtv.appointment.exception.commons.GenericDatabaseException;
 import com.vtv.appointment.exception.commons.GenericProducerException;
 import com.vtv.appointment.model.domain.commons.ErrorDetail;
@@ -28,7 +29,7 @@ public class InspectionProducerServiceImpl implements InspectionProducerService 
             producerClient.send(orderInspectionDto);
         } catch (GenericProducerException genericProducerException) {
             log.error(INSPECTION_PRODUCER_ERROR_MESSAGE, genericProducerException);
-            throw new GenericDatabaseException(
+            throw new OrderInspectionErrorException(
                     ExceptionError.builder()
                             .description(INSPECTION_PRODUCER_ERROR_MESSAGE)
                             .errorDetail(ErrorDetail.builder()

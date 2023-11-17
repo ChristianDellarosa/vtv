@@ -1,8 +1,8 @@
 package com.vtv.appointment.exception.handler;
 
 
-import com.vtv.appointment.exception.ScheduleErrorException;
-import com.vtv.appointment.exception.ScheduleFilterException;
+import com.vtv.appointment.exception.*;
+import com.vtv.appointment.exception.commons.BaseException;
 import com.vtv.appointment.model.domain.commons.ApiError;
 import com.vtv.appointment.model.domain.commons.ApiErrorDetail;
 import com.vtv.appointment.model.domain.commons.ExceptionError;
@@ -20,6 +20,33 @@ import java.util.Objects;
 @ControllerAdvice
 public class AppointmentExceptionHandler {
 
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    public ResponseEntity<ApiError> handleAppointmentNotFoundException(AppointmentNotFoundException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
+
+    @ExceptionHandler(InvalidAppointmentDateTimeException.class)
+    public ResponseEntity<ApiError> handleInvalidAppointmentDateTimeException(InvalidAppointmentDateTimeException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
+
+    @ExceptionHandler(AppointmentAlreadyExistsException.class)
+    public ResponseEntity<ApiError> handleAppoitnmentAlreadyExistsException(AppointmentAlreadyExistsException exception, WebRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(buildApiError(exception.getExceptionError(), request));
+    }
+
     @ExceptionHandler(ScheduleFilterException.class)
     public ResponseEntity<ApiError> handleScheduleFilterException(ScheduleFilterException exception, WebRequest request) {
 
@@ -29,8 +56,8 @@ public class AppointmentExceptionHandler {
                 .body(buildApiError(exception.getExceptionError(), request));
     }
 
-    @ExceptionHandler(ScheduleErrorException.class)
-    public ResponseEntity<ApiError> handleScheduleErrorException(ScheduleErrorException exception, WebRequest request) {
+    @ExceptionHandler({ScheduleErrorException.class, OrderInspectionErrorException.class})
+    public ResponseEntity<ApiError> handleScheduleErrorException(BaseException exception, WebRequest request) {
 
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
