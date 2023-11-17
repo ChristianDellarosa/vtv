@@ -10,6 +10,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import static com.vtv.appointment.util.DateUtils.*;
+
 public class ScheduleByMonthAndDayAndHour extends ScheduleFilter {
     public ScheduleByMonthAndDayAndHour(ScheduleQuery scheduleQuery) {
         super(scheduleQuery);
@@ -26,8 +28,8 @@ public class ScheduleByMonthAndDayAndHour extends ScheduleFilter {
     @Override
     public Pair<ZonedDateTime, ZonedDateTime> find() {
         //TODO: Falta validaciones de negocio de hora
-        final ZonedDateTime firstDateValid = ZonedDateTime.of(LocalDate.of(2023, scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(scheduleQuery.getHour(), 0, 0), DateUtils.getZoneId());
-        final ZonedDateTime lastDateValid = ZonedDateTime.of(LocalDate.of(2023, scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(scheduleQuery.getHour(), 59, 59), DateUtils.getZoneId());
+        final ZonedDateTime firstDateValid = ZonedDateTime.of(LocalDate.of(getCurrentlyYear(), scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(scheduleQuery.getHour(), MINUTE_ZERO, SECOND_ZERO), DateUtils.getZoneId());
+        final ZonedDateTime lastDateValid = ZonedDateTime.of(LocalDate.of(getCurrentlyYear(), scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(scheduleQuery.getHour(), MINUTE_FIFTY_NINE, SECOND_FIFTY_NINE), DateUtils.getZoneId());
         return Pair.of(firstDateValid, lastDateValid);
     }
 }

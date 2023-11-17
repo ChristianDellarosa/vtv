@@ -58,7 +58,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     .build();
 
         } catch (MongoException mongoException) {
-            log.error(ERROR_ON_SAVE_APPOINTMENT_MESSAGE, mongoException); //TODO: Ver de que lado meter logs
+            log.error(ERROR_ON_SAVE_APPOINTMENT_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
                             .description(ERROR_ON_SAVE_APPOINTMENT_MESSAGE)
@@ -92,7 +92,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
         ).collect(Collectors.toList());
 
     } catch (MongoException mongoException) {
-        log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException); //TODO: Ver de que lado meter logs
+        log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException);
         throw new GenericDatabaseException(
                 ExceptionError.builder()
                         .description(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE)
@@ -101,11 +101,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                                 .message(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE)
                                 .build())
                         .build(), mongoException);
-    }
+        }
     }
 
     @Override
-    public List<Appointment> getByCarPlate(String carPlate) { //todo: Get by filters
+    public List<Appointment> getByCarPlate(String carPlate) {
         try {
             final var appointmentDocumentList = mongoTemplate.find(Query.query(Criteria.where(CAR_PLATE_FIELD_NAME).is(carPlate)), AppointmentDocument.class);
             return appointmentDocumentList.stream().map(appointmentDocument ->
@@ -119,7 +119,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
             ).collect(Collectors.toList());
 
         } catch (MongoException mongoException) {
-            log.error(ERROR_ON_GET_APPOINTMENT_BY_CAR_PLATE_MESSAGE, mongoException); //TODO: Ver de que lado meter logs
+            log.error(ERROR_ON_GET_APPOINTMENT_BY_CAR_PLATE_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
                             .description(ERROR_ON_GET_APPOINTMENT_BY_CAR_PLATE_MESSAGE)
@@ -150,7 +150,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
             ).collect(Collectors.toList());
 
         } catch (MongoException mongoException) {
-            log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException); //TODO: Ver de que lado meter logs
+            log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
                             .description(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE)

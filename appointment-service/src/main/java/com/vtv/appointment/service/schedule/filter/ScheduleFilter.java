@@ -1,7 +1,6 @@
 package com.vtv.appointment.service.schedule.filter;
 
 import com.vtv.appointment.model.domain.ScheduleQuery;
-import com.vtv.appointment.model.dto.ScheduleQueryDto;
 import lombok.Getter;
 import org.springframework.data.util.Pair;
 

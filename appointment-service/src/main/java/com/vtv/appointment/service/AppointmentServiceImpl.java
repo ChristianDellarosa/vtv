@@ -39,7 +39,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         //1) Buscar si ya no tenia un turno de revision previo
         //TODO: BUG: No te deja sacar RE_INSPECCIONES
-
         final var appointmentsByCarPlate = appointmentRepository.getByCarPlate(appointment.getCarPlate());
 
         if(appointment.isInspection()) {

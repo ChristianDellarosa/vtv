@@ -1,8 +1,11 @@
 package com.vtv.appointment.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vtv.appointment.exception.commons.GenericDatabaseException;
+import com.vtv.appointment.model.domain.commons.ErrorDetail;
+import com.vtv.appointment.model.domain.commons.ExceptionError;
 import com.vtv.appointment.model.dto.OrderInspectionDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -15,17 +18,35 @@ public class InspectionProducerClient implements ProducerClient<OrderInspectionD
 
     private final Queue queue;
 
-    private final ObjectMapper objectMapper;
+    public static final String INSPECTION_PRODUCER_ERROR_MESSAGE = "An error occurred while producing an inspection message";
+    public static final Integer INSPECTION_PRODUCER_ERROR_CODE = 700;
 
-    public InspectionProducerClient(RabbitTemplate rabbitTemplate, Queue queue, ObjectMapper objectMapper) {
+    public InspectionProducerClient(RabbitTemplate rabbitTemplate, Queue queue) {
         this.rabbitTemplate = rabbitTemplate;
         this.queue = queue;
-        this.objectMapper = objectMapper;
     }
 
     @Override
     public void send(OrderInspectionDto message) {
         log.info("Order.. {}", message.toString());
-        rabbitTemplate.convertAndSend(queue.getName(), message);
+        sendMessage(message);
+    }
+
+    private void sendMessage(OrderInspectionDto message) {
+        try {
+            rabbitTemplate.convertAndSend(queue.getName(), message);
+        } catch (AmqpException amqpException) {
+            log.error(INSPECTION_PRODUCER_ERROR_MESSAGE, amqpException);
+            throw new GenericDatabaseException(
+                    ExceptionError.builder()
+                            .description(INSPECTION_PRODUCER_ERROR_MESSAGE)
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(INSPECTION_PRODUCER_ERROR_CODE)
+                                    .message(INSPECTION_PRODUCER_ERROR_MESSAGE)
+                                    .build())
+                            .build(), amqpException);
+        }
+
+
     }
 }
