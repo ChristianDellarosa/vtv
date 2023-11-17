@@ -7,6 +7,7 @@ import com.vtv.appointment.model.domain.Appointment;
 import com.vtv.appointment.model.domain.commons.ErrorDetail;
 import com.vtv.appointment.model.domain.commons.ExceptionError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -57,7 +58,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                     .dateTime(appointmentCreated.getDateTime())
                     .build();
 
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_SAVE_APPOINTMENT_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
@@ -91,7 +92,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
         ).collect(Collectors.toList());
 
-    } catch (MongoException mongoException) {
+    } catch (MongoException | DataAccessException mongoException) {
         log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException);
         throw new GenericDatabaseException(
                 ExceptionError.builder()
@@ -117,8 +118,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
                             .id(appointmentDocument.getId())
                             .build()
             ).collect(Collectors.toList());
-
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_GET_APPOINTMENT_BY_CAR_PLATE_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
@@ -149,7 +149,7 @@ public class AppointmentRepositoryImpl implements AppointmentRepository {
 
             ).collect(Collectors.toList());
 
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_GET_APPOINTMENT_BY_DATE_TIME_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()

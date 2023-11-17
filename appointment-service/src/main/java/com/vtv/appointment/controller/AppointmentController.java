@@ -30,6 +30,7 @@ public class AppointmentController {
     }
 
 
+    //TODO: BORRAR
     @GetMapping("/hola/{id}")
     public void testPublicador(@PathVariable String id) {
         this.publisherService.orderInspection(OrderInspectionDto.builder()
@@ -62,7 +63,6 @@ public class AppointmentController {
 
     @GetMapping("/{id}")
     public AppointmentDto getByCarPlate(@PathVariable String id) { //TODO: Nuestro id es la patente, o quizas hacer por filter de email o carPlate
-        log.info(id);
         final var appointment = appointmentService.getLastByCarPlate(id);
         return AppointmentDto.builder()
                 .carPlate(appointment.getCarPlate())
@@ -73,3 +73,5 @@ public class AppointmentController {
     }
 
 }
+
+//TODO: Agregar Swagger como docu
