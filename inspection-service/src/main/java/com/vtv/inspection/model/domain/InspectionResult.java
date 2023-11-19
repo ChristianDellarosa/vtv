@@ -31,7 +31,7 @@ public class InspectionResult { //TODO: Ver si es necesario que exista
         final Integer sumatory = calculateScore();
 
         return isRejectedScore(sumatory) ? REJECTED :
-                isApprovedScore(sumatory) ? APPROVED : APPROVED_WITH_COMMENTS;
+                isApprovedScore(sumatory) ? APPROVED : APPROVED_WITH_OBSERVATIONS;
 
     }
     private Boolean hasAnyCheckableStepLessThanFive() {

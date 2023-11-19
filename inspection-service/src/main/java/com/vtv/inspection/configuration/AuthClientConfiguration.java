@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -36,14 +37,19 @@ public class AuthClientConfiguration {
 
     @Bean(name = CLIENT_AUTH_REST_TEMPLATE)
     public RestTemplate restTemplate(RestTemplateBuilder builder, AuthClientInterceptor authClientInterceptor) {
+        final var simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        simpleClientHttpRequestFactory.setOutputStreaming(false);
+
         return builder.setReadTimeout(Duration.ofMillis(restClientTimeoutInMs))
                 .interceptors(authClientInterceptor)
+                .requestFactory(() -> simpleClientHttpRequestFactory)
                 .build();
     }
 
     @Bean
     public AuthClientInterceptor getClientsAuthSignUpInterceptor(ObjectMapper mapper) {
         return new AuthClientInterceptor(mapper);
+
     }
 
 }

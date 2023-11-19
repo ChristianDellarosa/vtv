@@ -85,7 +85,7 @@ public class JwtTokenService implements TokenService {
                     .build(),
                     tokenExpiredException);
         } catch (SignatureVerificationException | AlgorithmMismatchException | InvalidClaimException invalidTokenException) {
-            log.info(TOKEN_EXPIRED_MESSAGE, invalidTokenException);
+            log.info(TOKEN_IS_INVALID_DESCRIPTION, invalidTokenException);
             throw new SessionException(
                     ExceptionError.builder()
                             .description(TOKEN_IS_INVALID_DESCRIPTION)

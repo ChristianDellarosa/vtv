@@ -3,5 +3,5 @@ server:
 
 token:
   basic-auth:
-    expireAtInSeconds: 120
+    expireAtInSeconds: 12000
     secret: 'hola'

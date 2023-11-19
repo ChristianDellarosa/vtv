@@ -16,6 +16,6 @@ public class CheckableStepResult {
     private String observations;
     private Integer score;
     private CheckStepStatus status;
-    private ZonedDateTime dateTime; //TODO: Para que esta este campo?
+    private ZonedDateTime dateTime; //TODO: Para que esta este campo?, revisar si es necesario !!!!
     //TODO: Falta createAt
 }

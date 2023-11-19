@@ -13,7 +13,7 @@ spring:
 
 client:
   auth:
-    base-url: 'http://localhost:8082'
+    base-url: 'http://localhost:8081'
     rest-client-timeout-in-ms: 3000
     resources:
       validate-session: '/api/v1/session'
@@ -23,8 +23,10 @@ queues:
 
 
 check-test:
-  is-fail-check-case: false
-  is-less-than-five-points-check-case: false
+  is-approved-check-case: false
+  is-observed-check-case: true
+  is-rejected-check-case: false
+  is-reject-by-less-than-five-points-check-case: false
 
 server:
-  port: 8081
+  port: 8082

@@ -50,7 +50,6 @@ public class InspectionServiceImpl implements InspectionService {
 
         validateSession(sessionToken);
 
-        //TODO: Podriamos separar inspeccion de inspection order
         final Inspection inspection = getInspection(inspectionRequest);
 
         final InspectionResult result = inspectCar(inspection);

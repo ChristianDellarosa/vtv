@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "check-test") //TODO: Is a testing config for simulate failed check
 public class CheckConfiguration {
-    private boolean isFailCheckCase;
-    private boolean isLessThanFivePointsCheckCase;
+
+    private Boolean isRejectedCheckCase;
+    private Boolean isRejectByLessThanFivePointsCheckCase;
+    private Boolean isApprovedCheckCase;
+    private Boolean isObservedCheckCase;
 }

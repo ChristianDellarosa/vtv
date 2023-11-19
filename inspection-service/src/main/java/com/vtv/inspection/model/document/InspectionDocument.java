@@ -7,10 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -31,4 +34,8 @@ public class InspectionDocument {
     private InspectionStatus status;
     private Integer score;
     private InspectionResult result;
+    @CreatedDate
+    private Date createAt; //TODO: No esta funcionando!
+    @LastModifiedDate
+    private Date updateAt; //TODO: No esta funcionando
 }

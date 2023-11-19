@@ -1,5 +1,6 @@
 package com.vtv.inspection.client;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vtv.inspection.exception.commons.GenericServerInternalException;
 import com.vtv.inspection.exception.commons.GenericUnauthorizedException;
@@ -17,12 +18,13 @@ import org.springframework.http.client.ClientHttpResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static com.fasterxml.jackson.core.JsonParser.*;
+
 @Slf4j
 public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //TODO: add Test for interceptor
     private final ObjectMapper mapper;
-    private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_DESCRIPTION = "The strategy to process inspection order does not exist";
-    private static final Integer ORDER_INSPECTION_STRATEGY_NOT_EXISTS_CODE = 300;
-    private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_MESSAGE = "The order Inspection strategy not exists";
+    private static final String  MAP_ERROR_RESPONSE_MESSAGE = "An error occurred while mapping the response";
+    private static final Integer MAP_ERROR_RESPONSE_MESSAGE_CODE = 309;
 
     private static final String INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE = "An error occurs when validate session for user";
     private static final Integer INTERNAL_ERROR_ON_VALIDATE_SESSION_CODE = 310;
@@ -31,7 +33,7 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
     private static final Integer UNKNOWN_ERROR_CODE = 999;
 
     public AuthClientInterceptor(ObjectMapper mapper) {
-        this.mapper = mapper;
+        this.mapper = mapper.configure(Feature.AUTO_CLOSE_SOURCE, true);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
                             .build());
         }
         if(httpResponse.getStatusCode().is5xxServerError()) {
+            log.error(INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE + "{}", httpResponse.getBody());
             throw new GenericServerInternalException( //TODO: En realidad esto debería ser un error no manejado,
                     ExceptionError.builder()
                             .description(INTERNAL_ERROR_ON_VALIDATE_SESSION_MESSAGE)
@@ -67,7 +70,7 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
 
     private ApiError mapToApiError(ClientHttpResponse httpResponse) {
         try {
-            String result = IOUtils.toString(httpResponse.getBody(), String.valueOf(StandardCharsets.UTF_8));
+            final String result = IOUtils.toString(httpResponse.getBody(), StandardCharsets.UTF_8);
 
             if (!result.isEmpty()) {
                 return mapper.readValue(result, ApiError.class);
@@ -87,12 +90,13 @@ public class AuthClientInterceptor implements ClientHttpRequestInterceptor { //T
             log.error("An unexpected error has occurred reading ClientHttpResponse object.", exception);
             throw new GenericServerInternalException(
                     ExceptionError.builder()
-                            .description(ORDER_INSPECTION_STRATEGY_NOT_EXISTS_DESCRIPTION)
+                            .description(MAP_ERROR_RESPONSE_MESSAGE)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(ORDER_INSPECTION_STRATEGY_NOT_EXISTS_CODE)
-                                    .message(ORDER_INSPECTION_STRATEGY_NOT_EXISTS_MESSAGE)
+                                    .code(MAP_ERROR_RESPONSE_MESSAGE_CODE)
+                                    .message(MAP_ERROR_RESPONSE_MESSAGE)
                                     .build())
                             .build(), exception);
         }
     }
+
 }
