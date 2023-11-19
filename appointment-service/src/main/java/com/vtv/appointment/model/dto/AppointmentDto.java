@@ -5,6 +5,7 @@ import com.vtv.appointment.model.domain.AppointmentType;
 import com.vtv.appointment.model.dto.validator.DateTime;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class AppointmentDto {
 
     @NotNull
+    @Pattern(regexp = "^([A-Z]{2})([0-9]{3})([A-Z]{2})|([A-Z]{3})([0-9]{3})$", message = "The carPlate format is invalid")
     private String carPlate;
 
     @Email

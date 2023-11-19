@@ -13,7 +13,6 @@ public class DateUtils {
     public final static int MINUTE_ZERO = 0;
     public final static int MINUTE_FIFTY_NINE = 59;
     public final static int FIRST_DAY_OF_MONTH = 1;
-
     public final static int FIRST_MONTH = 1;
 
     public final static int LAST_MONTH = 12;
@@ -26,7 +25,6 @@ public class DateUtils {
         final int year = getCurrentlyYear();
         return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
-
 
     public static ZoneId getZoneId() {
        return ZoneId.of("America/Buenos_Aires");
