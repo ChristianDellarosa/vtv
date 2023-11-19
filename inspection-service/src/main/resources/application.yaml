@@ -11,6 +11,22 @@ spring:
       #Deberían ser dos bases independientes, por temas practicos cree una sola llamada 'vtv'
       auto-index-creation: true
 
+client:
+  auth:
+    base-url: 'http://localhost:8081'
+    rest-client-timeout-in-ms: 3000
+    resources:
+      validate-session: '/api/v1/session'
+
+queues:
+  appointment: 'cola1'
+
+
+check-test:
+  is-approved-check-case: false
+  is-observed-check-case: true
+  is-rejected-check-case: false
+  is-reject-by-less-than-five-points-check-case: false
 
 server:
-  port: 8081
+  port: 8082

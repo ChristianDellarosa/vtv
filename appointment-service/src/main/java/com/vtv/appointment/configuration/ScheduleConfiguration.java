@@ -16,7 +16,7 @@ import java.util.List;
 public class ScheduleConfiguration {
     private List<Month> monthsEnable;
     private List<DayOfWeek> daysEnable;
-    private List<Integer> hoursEnable; //TODO: Luego ver de pasarlo a hora minuto
+    private List<Integer> hoursEnable;
     private Integer perHour;
-    private List<LocalDate> holidayDays; //TODO: Luego ver de pasarlo a hora minuto
+    private List<LocalDate> holidayDays;
 }

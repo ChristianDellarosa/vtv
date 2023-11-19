@@ -12,7 +12,7 @@ import static com.vtv.inspection.model.domain.InspectionStatus.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class InspectionResult { //TODO: Ver si es necesario que exista
     //todo: Deberia tener un finished date, el score aca dentro y los calcular quizas deberian ser parte del service
     private List<CheckableStepResult> checkableStepResults;
@@ -31,7 +31,7 @@ public class InspectionResult { //TODO: Ver si es necesario que exista
         final Integer sumatory = calculateScore();
 
         return isRejectedScore(sumatory) ? REJECTED :
-                isApprovedScore(sumatory) ? APPROVED : APPROVED_WITH_COMMENTS;
+                isApprovedScore(sumatory) ? APPROVED : APPROVED_WITH_OBSERVATIONS;
 
     }
     private Boolean hasAnyCheckableStepLessThanFive() {

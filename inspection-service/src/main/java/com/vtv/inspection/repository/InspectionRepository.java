@@ -9,4 +9,6 @@ public interface InspectionRepository {
     Inspection save(Inspection inspection); //save and update
 
     List<Inspection> getByCarPlateAndAppointmentType(String carPlate, AppointmentType appointmentType);
+
+    List<Inspection> getByCarPlate(String carPlate);
 }

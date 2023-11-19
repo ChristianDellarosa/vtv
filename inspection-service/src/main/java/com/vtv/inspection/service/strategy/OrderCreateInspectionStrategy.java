@@ -29,6 +29,7 @@ public class OrderCreateInspectionStrategy implements OrderInspectionStrategy {
                 .clientEmail(inspectionOrder.getClientEmail())
                 .build()
         );
+        log.info("Create order successfully");
     }
 
     @Override

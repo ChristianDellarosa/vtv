@@ -1,9 +1,13 @@
 package com.vtv.appointment.service.schedule;
 
 import com.vtv.appointment.configuration.ScheduleConfiguration;
+import com.vtv.appointment.exception.ScheduleErrorException;
+import com.vtv.appointment.exception.commons.GenericDatabaseException;
+import com.vtv.appointment.exception.ScheduleFilterException;
 import com.vtv.appointment.model.domain.Appointment;
 import com.vtv.appointment.model.domain.ScheduleQuery;
-import com.vtv.appointment.model.dto.ScheduleQueryDto;
+import com.vtv.appointment.model.domain.commons.ErrorDetail;
+import com.vtv.appointment.model.domain.commons.ExceptionError;
 import com.vtv.appointment.repository.AppointmentRepository;
 import com.vtv.appointment.service.schedule.filter.ScheduleByMonthAndDayAndHour;
 import com.vtv.appointment.service.schedule.filter.ScheduleByMonthAndDayFilter;
@@ -30,25 +34,32 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleConfiguration scheduleConfiguration;
 
+    private static final int ONE = 1;
+
+    private static final String FILTER_COMBINATION_NOT_EXISTS_MESSAGE = "The request filter combination is invalid.";
+    private static final Integer FILTER_COMBINATION_NOT_EXISTS_NOT_EXISTS_CODE = 310;
+
+    private static final String GET_SCHEDULE_ERROR_MESSAGE = "An error occurred while obtaining the schedules.";
+    private static final Integer GET_SCHEDULE_ERROR_CODE = 320;
+
     public ScheduleServiceImpl(AppointmentRepository appointmentRepository, ScheduleConfiguration scheduleConfiguration) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleConfiguration = scheduleConfiguration;
     }
 
-    //TODO: Analizar si se tira un 400 o un vacio por las reglas de negocio, entiendo que un vacio.
     public List<ZonedDateTime> get(ScheduleQuery scheduleQuery) {
         final Pair<ZonedDateTime, ZonedDateTime> dateTimeRange = getScheduleFilter(scheduleQuery).find();
 
         final List<ZonedDateTime> notAvailableDateTimes = getNotAvailableDateTimes(dateTimeRange);
 
-        final List<ZonedDateTime> availableAppointments = new ArrayList<>(); //TODO: No se deberían llamar appointments diferenciar turnos de disponibilidad
+        final List<ZonedDateTime> availableSchedules = new ArrayList<>();
         //TODO: Ver como optimizar este for
-        for (ZonedDateTime date = dateTimeRange.getFirst(); date.isBefore(dateTimeRange.getSecond()); date = date.plusHours(1)) {
+        for (ZonedDateTime date = dateTimeRange.getFirst(); date.isBefore(dateTimeRange.getSecond()); date = date.plusHours(ONE)) {
             if (isAvailableDateTime(date) && isValidDate(date) && isValidTime(date.toLocalTime()) && !notAvailableDateTimes.contains(date)) {
-                availableAppointments.add(date);
+                availableSchedules.add(date);
             }
         }
-        return availableAppointments;
+        return availableSchedules;
     }
 
     public Boolean isValidDate(ZonedDateTime date) {
@@ -56,8 +67,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         final var isDayAfterToday = dateNow.getDayOfYear() < date.getDayOfYear(); //No te permito sacar turno para el mismo dia
         final var isDateEnabled =
                 scheduleConfiguration.getDaysEnable().contains(date.getDayOfWeek()) &&
-                scheduleConfiguration.getMonthsEnable().contains(date.getMonth()) &&
-                !scheduleConfiguration.getHolidayDays().contains(date.toLocalDate());
+                        scheduleConfiguration.getMonthsEnable().contains(date.getMonth()) &&
+                        !scheduleConfiguration.getHolidayDays().contains(date.toLocalDate());
 
         return isDayAfterToday && isDateEnabled;
     }
@@ -67,7 +78,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     public Boolean isAvailableDateTime(ZonedDateTime date) {
-        final var appointmentsInDateTimeQuantity = appointmentRepository.getByDateTime(date).size();
+        final var appointmentsInDateTimeQuantity = getAppointmentsByDateTime(date).size();
         return scheduleConfiguration.getPerHour() > appointmentsInDateTimeQuantity;
     }
 
@@ -76,15 +87,27 @@ public class ScheduleServiceImpl implements ScheduleService {
                 new ScheduleByMonthAndDayAndHour(scheduleQuery),
                 new ScheduleByMonthAndDayFilter(scheduleQuery),
                 new ScheduleByMonthFilter(scheduleQuery),
-                new ScheduleWithoutFilter(scheduleQuery)); //TODO: Analizar como hacerlo singleton, porque cada vez que llega aca estas instanciando 4 estrategias
+                new ScheduleWithoutFilter(scheduleQuery));
+        //TODO: Analizar como hacerlo singleton, porque cada vez que llega aca estas instanciando 4 estrategias
 
         return strategies.stream()
                 .filter(ScheduleFilter::canHandle)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("BAD REQUEST"));
+                .orElseThrow(() -> {
+                    log.info(FILTER_COMBINATION_NOT_EXISTS_MESSAGE);
+                    return new ScheduleFilterException(
+                            ExceptionError.builder()
+                                    .description(FILTER_COMBINATION_NOT_EXISTS_MESSAGE)
+                                    .errorDetail(ErrorDetail.builder()
+                                            .code(FILTER_COMBINATION_NOT_EXISTS_NOT_EXISTS_CODE)
+                                            .message(FILTER_COMBINATION_NOT_EXISTS_MESSAGE)
+                                            .build())
+                                    .build());
+                });
     }
+
     private List<ZonedDateTime> getNotAvailableDateTimes(Pair<ZonedDateTime, ZonedDateTime> dateTimePair) {
-        final List<Appointment> appointments = appointmentRepository.getByDateTimeRange(dateTimePair.getFirst(), dateTimePair.getSecond());
+        final List<Appointment> appointments = getAppointmentsByDateTimeRange(dateTimePair);
 
         final Function<ZonedDateTime, ZonedDateTime> key = dateTime -> dateTime; //TODO: Como reemplazar esto?
         final Map<ZonedDateTime, Long> appointmentsQuantityByDateTime = appointments.stream()
@@ -92,6 +115,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.groupingBy(key, Collectors.counting()));
 
         final List<ZonedDateTime> notAvailableDateTimes = new ArrayList<>();
+
         //Lleno lista de turnos llenos
         for (Map.Entry<ZonedDateTime, Long> entry : appointmentsQuantityByDateTime.entrySet()) {
             if (scheduleConfiguration.getPerHour() <= entry.getValue().intValue()) {
@@ -100,5 +124,37 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
 
         return notAvailableDateTimes;
+    }
+
+    private List<Appointment> getAppointmentsByDateTimeRange(Pair<ZonedDateTime, ZonedDateTime> dateTimePair) {
+        try {
+            return appointmentRepository.getByDateTimeRange(dateTimePair.getFirst(), dateTimePair.getSecond());
+        } catch (GenericDatabaseException genericDatabaseException) {
+            log.error(GET_SCHEDULE_ERROR_MESSAGE, genericDatabaseException);
+            throw new ScheduleErrorException(
+                    ExceptionError.builder()
+                            .description(GET_SCHEDULE_ERROR_MESSAGE)
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(GET_SCHEDULE_ERROR_CODE)
+                                    .message(GET_SCHEDULE_ERROR_MESSAGE)
+                                    .build())
+                            .build(), genericDatabaseException);
+        }
+    }
+
+    private List<Appointment> getAppointmentsByDateTime(ZonedDateTime date) {
+        try {
+            return appointmentRepository.getByDateTime(date);
+        } catch (GenericDatabaseException genericDatabaseException) {
+            log.error(GET_SCHEDULE_ERROR_MESSAGE, genericDatabaseException);
+            throw new ScheduleErrorException(
+                    ExceptionError.builder()
+                            .description(GET_SCHEDULE_ERROR_MESSAGE)
+                            .errorDetail(ErrorDetail.builder()
+                                    .code(GET_SCHEDULE_ERROR_CODE)
+                                    .message(GET_SCHEDULE_ERROR_MESSAGE)
+                                    .build())
+                            .build(), genericDatabaseException);
+        }
     }
 }

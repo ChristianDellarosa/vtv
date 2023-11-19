@@ -24,11 +24,13 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public List<ZonedDateTime> getAvailableAppointments(@Valid ScheduleQueryDto scheduleQueryDto) { //TODO: Migrar a DTO
-        return this.scheduleService.get(ScheduleQuery.builder()
+    public List<ZonedDateTime> getAvailableAppointments(@Valid ScheduleQueryDto scheduleQueryDto) {
+        return this.scheduleService.get(
+                ScheduleQuery.builder()
                 .hour(scheduleQueryDto.getHour())
                 .month(scheduleQueryDto.getMonth())
                 .dayNumber(scheduleQueryDto.getDayNumber())
-                .build());
+                .build()
+        );
     }
 }
