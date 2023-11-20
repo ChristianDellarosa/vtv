@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.vtv.auth.configuration.JwtTokenConfiguration;
@@ -31,18 +32,18 @@ public class JwtTokenService implements TokenService {
     private final static String TOKEN_TYPE = "Bearer";
     private final static String ISSUER = "auth-service";
 
-    private static final String TOKEN_EXPIRED_DESCRIPTION = "Token is expired, please log in again to get a new token.";
-    private static final Integer TOKEN_EXPIRED_CODE = 100;
-    private static final String  TOKEN_EXPIRED_MESSAGE = "Token is expired";
+    public static final String TOKEN_EXPIRED_DESCRIPTION = "Token is expired, please log in again to get a new token.";
+    public static final Integer TOKEN_EXPIRED_CODE = 100;
+    public static final String  TOKEN_EXPIRED_MESSAGE = "Token is expired";
 
-    private static final String TOKEN_IS_INVALID_DESCRIPTION = "Token is invalid, please enter a valid token";
-    private static final Integer TOKEN_IS_INVALID_DESCRIPTION_CODE = 101;
-    private static final String  TOKEN_IS_INVALID_DESCRIPTION_MESSAGE = "Token is invalid";
+    public static final String TOKEN_IS_INVALID_DESCRIPTION = "Token is invalid, please enter a valid token";
+    public static final Integer TOKEN_IS_INVALID_CODE = 101;
+    public static final String TOKEN_IS_INVALID_MESSAGE = "Token is invalid";
 
 
     public JwtTokenService(JwtTokenConfiguration jwtTokenConfiguration) {
         this.jwtTokenConfiguration = jwtTokenConfiguration;
-        this.algorithm = Algorithm.HMAC256(jwtTokenConfiguration.getSecret());
+        this.algorithm = Algorithm.HMAC256(this.jwtTokenConfiguration.getSecret());
         this.verifier = JWT.require(algorithm)
                 .withIssuer(ISSUER)
                 .build();
@@ -68,7 +69,7 @@ public class JwtTokenService implements TokenService {
     }
 
     @Override
-    public void validate(String token) { //TODO: Quizas faltaría verificar que ese token es de quien dice ser, sino cualquiera que tenga este token podria acceder
+    public void validate(String token) {
         log.info("Validate access token..");
         try {
             final var jwtToken = token.replace(TOKEN_TYPE, Strings.EMPTY).trim();
@@ -84,18 +85,22 @@ public class JwtTokenService implements TokenService {
                                     .build())
                     .build(),
                     tokenExpiredException);
-        } catch (SignatureVerificationException | AlgorithmMismatchException | InvalidClaimException invalidTokenException) {
+        } catch (SignatureVerificationException
+                 | AlgorithmMismatchException
+                 | InvalidClaimException
+                 | JWTDecodeException invalidTokenException) {
             log.info(TOKEN_IS_INVALID_DESCRIPTION, invalidTokenException);
             throw new SessionException(
                     ExceptionError.builder()
                             .description(TOKEN_IS_INVALID_DESCRIPTION)
                             .errorDetail(ErrorDetail.builder()
-                                    .code(TOKEN_IS_INVALID_DESCRIPTION_CODE)
-                                    .message(TOKEN_IS_INVALID_DESCRIPTION_MESSAGE)
+                                    .code(TOKEN_IS_INVALID_CODE)
+                                    .message(TOKEN_IS_INVALID_MESSAGE)
                                     .build())
                             .build(),
                     invalidTokenException.getCause());
         }
     }
 }
-//TODO: BUG CON LONGITUD MAS CHICA DE TOKEN
+//TODO: BUG: CON LONGITUD MAS CHICA DE TOKEN
+//TODO: IMPROVEMENT: Quizas faltaría verificar que ese token es de quien dice ser, sino cualquiera que tenga este token podria acceder

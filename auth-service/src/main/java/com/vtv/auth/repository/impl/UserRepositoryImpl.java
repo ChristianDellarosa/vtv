@@ -14,9 +14,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     public UserRepositoryImpl() {
         this.users = Set.of(
-                User.builder().username("Christian01").password("password123").name("Christian").build(),
-                new User("LucasPerez", "password1005", "Lucas"),
-                new User("RominaDiaz", "password0912", "Romina")
+                User.builder().username("Christian").password("password123").name("Christian").build(),
+                User.builder().username("LucasPerez").password("password1005").name("Lucas").build(),
+                User.builder().username("RominaDiaz").password("password0912").name("Romina").build()
         );
     }
 

@@ -19,9 +19,9 @@ public class Base64Utils {
     private static final String DELIMITER = ":";
     private static final int SECOND_INDEX = 1;
 
-    private static final String DECODE_BASE64_ERROR_DESCRIPTION = "An internal server error occurs";
-    private static final Integer DECODE_BASE64_ERROR_CODE = 10; //TODO: Generic Code of internal error
-    private static final String DECODE_BASE64_ERROR_MESSAGE = "An error occurred while decoding the basic auth token";
+    public static final String DECODE_BASE64_ERROR_DESCRIPTION = "An internal server error occurs";
+    public static final Integer DECODE_BASE64_ERROR_CODE = 10;
+    public static final String DECODE_BASE64_ERROR_MESSAGE = "An error occurred while decoding the basic auth token";
 
     public static BasicAuthentication getBasicAuthentication(String baseAuthenticationToken) {
         try {
@@ -48,11 +48,5 @@ public class Base64Utils {
                                     .build())
                     .build(), exception);
         }
-
-
-
-
-
     }
-    //TODO: Manejo de error?
 }

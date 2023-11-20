@@ -20,9 +20,9 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
-    private static final Integer INVALID_CREDENTIALS_CODE = 200;
-    private static final String  INVALID_CREDENTIALS_MESSAGE = "Credentials are invalid";
-    private static final String  INVALID_CREDENTIALS_DESCRIPTION = "Credentials are invalid, please enter a valid credentials";
+    public static final Integer INVALID_CREDENTIALS_CODE = 200;
+    public static final String  INVALID_CREDENTIALS_MESSAGE = "Credentials are invalid";
+    public static final String  INVALID_CREDENTIALS_DESCRIPTION = "Credentials are invalid, please enter a valid credentials";
 
     public AuthServiceImpl(UserRepository userRepository, TokenService tokenService) {
         this.userRepository = userRepository;
@@ -34,7 +34,9 @@ public class AuthServiceImpl implements AuthService {
 
         final var basicAuthentication = Base64Utils.getBasicAuthentication(basicAuthToken);
 
-        userRepository.getByUsername(basicAuthentication.username())
+        final var username = basicAuthentication.username();
+
+        userRepository.getByUsername(username)
                 .map(user -> {
                     if(Objects.isNull(user.password())  || !user.password().equals(basicAuthentication.password())) {
                         log.info(INVALID_CREDENTIALS_DESCRIPTION);
@@ -60,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                                     .build());
                 });
 
-        final var accessToken = tokenService.generate(basicAuthentication.username());
+        final var accessToken = tokenService.generate(username);
 
         return SignIn.builder()
                 .accessToken(accessToken)
