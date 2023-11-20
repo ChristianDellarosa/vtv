@@ -3,14 +3,10 @@ package com.vtv.auth.utils;
 import com.vtv.auth.domain.BasicAuthentication;
 import com.vtv.auth.domain.commons.ErrorDetail;
 import com.vtv.auth.domain.commons.ExceptionError;
-import com.vtv.auth.exception.SessionException;
 import com.vtv.auth.exception.commons.GenericServerInternalException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.vtv.auth.service.impl.JwtTokenService.TOKEN_IS_INVALID_CODE;
-import static com.vtv.auth.service.impl.JwtTokenService.TOKEN_IS_INVALID_DESCRIPTION;
-import static com.vtv.auth.service.impl.JwtTokenService.TOKEN_IS_INVALID_MESSAGE;
 import static com.vtv.auth.utils.Base64Utils.DECODE_BASE64_ERROR_CODE;
 import static com.vtv.auth.utils.Base64Utils.DECODE_BASE64_ERROR_DESCRIPTION;
 import static com.vtv.auth.utils.Base64Utils.DECODE_BASE64_ERROR_MESSAGE;

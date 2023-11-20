@@ -8,9 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class OrderInspectionErrorException extends BaseException {
-    public OrderInspectionErrorException(ExceptionError exceptionError) {
-        super(exceptionError);
-    }
 
     public OrderInspectionErrorException(ExceptionError exceptionError, Throwable cause) {
         super(exceptionError, cause);

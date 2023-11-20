@@ -129,7 +129,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         final Appointment appointmentCreated = createAppointment(appointment);
 
         //6 Mandar el evento
-        inspectionProducerService.orderInspection(OrderInspectionDto.builder()
+        inspectionProducerService.orderInspection(
+                OrderInspectionDto.builder()
                 .clientEmail(appointmentCreated.getClientEmail())
                 .carPlate(appointmentCreated.getCarPlate())
                 .dateTime(appointmentCreated.getDateTime())

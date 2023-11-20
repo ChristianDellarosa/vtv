@@ -36,11 +36,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private static final int ONE = 1;
 
-    private static final String FILTER_COMBINATION_NOT_EXISTS_MESSAGE = "The request filter combination is invalid.";
-    private static final Integer FILTER_COMBINATION_NOT_EXISTS_NOT_EXISTS_CODE = 310;
+    public static final String FILTER_COMBINATION_NOT_EXISTS_MESSAGE = "The request filter combination is invalid.";
+    public static final Integer FILTER_COMBINATION_NOT_EXISTS_NOT_EXISTS_CODE = 310;
 
-    private static final String GET_SCHEDULE_ERROR_MESSAGE = "An error occurred while obtaining the schedules.";
-    private static final Integer GET_SCHEDULE_ERROR_CODE = 320;
+    public static final String GET_SCHEDULE_ERROR_MESSAGE = "An error occurred while obtaining the schedules.";
+    public static final Integer GET_SCHEDULE_ERROR_CODE = 320;
 
     public ScheduleServiceImpl(AppointmentRepository appointmentRepository, ScheduleConfiguration scheduleConfiguration) {
         this.appointmentRepository = appointmentRepository;
@@ -53,6 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         final List<ZonedDateTime> notAvailableDateTimes = getNotAvailableDateTimes(dateTimeRange);
 
         final List<ZonedDateTime> availableSchedules = new ArrayList<>();
+
         //TODO: Ver como optimizar este for
         for (ZonedDateTime date = dateTimeRange.getFirst(); date.isBefore(dateTimeRange.getSecond()); date = date.plusHours(ONE)) {
             if (isAvailableDateTime(date) && isValidDate(date) && isValidTime(date.toLocalTime()) && !notAvailableDateTimes.contains(date)) {

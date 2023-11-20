@@ -16,7 +16,15 @@ public class DateUtils {
     public final static int FIRST_MONTH = 1;
 
     public final static int LAST_MONTH = 12;
+
+    public final static int LAST_DAY_OF_DECEMBER = 31;
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String ZONE = "America/Buenos_Aires";
+
+    public static final String LANGUAGE = "es";
+
+    public static final String COUNTRY = "AR";
     public static Integer getCurrentlyYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
     }
@@ -27,10 +35,10 @@ public class DateUtils {
     }
 
     public static ZoneId getZoneId() {
-       return ZoneId.of("America/Buenos_Aires");
+       return ZoneId.of(ZONE);
     }
 
     public static Locale getLocale() {
-        return new Locale("es", "AR");
+        return new Locale(LANGUAGE, COUNTRY);
     }
 }

@@ -1,6 +1,6 @@
 package com.vtv.appointment.client;
 
-import com.vtv.appointment.exception.commons.GenericDatabaseException;
+import com.vtv.appointment.exception.commons.GenericProducerException;
 import com.vtv.appointment.model.domain.commons.ErrorDetail;
 import com.vtv.appointment.model.domain.commons.ExceptionError;
 import com.vtv.appointment.model.dto.OrderInspectionDto;
@@ -37,7 +37,7 @@ public class InspectionProducerClient implements ProducerClient<OrderInspectionD
             rabbitTemplate.convertAndSend(queue.getName(), message);
         } catch (AmqpException amqpException) {
             log.error(INSPECTION_PRODUCER_ERROR_MESSAGE, amqpException);
-            throw new GenericDatabaseException(
+            throw new GenericProducerException(
                     ExceptionError.builder()
                             .description(INSPECTION_PRODUCER_ERROR_MESSAGE)
                             .errorDetail(ErrorDetail.builder()
