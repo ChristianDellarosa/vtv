@@ -127,7 +127,6 @@ public class ScheduleServiceImplTest {
 
     @Test
     public void get_withDatabaseError_throw_ScheduleErrorException() {
-        // Simulate a database error
         doThrow(GenericDatabaseException.class).
                 when(appointmentRepository).getByDateTimeRange(any(), any());
 

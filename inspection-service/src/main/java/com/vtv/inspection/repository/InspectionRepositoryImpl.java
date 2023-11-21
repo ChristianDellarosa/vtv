@@ -2,6 +2,7 @@ package com.vtv.inspection.repository;
 
 import com.mongodb.MongoException;
 import com.vtv.inspection.exception.commons.GenericDatabaseException;
+import com.vtv.inspection.mapper.InspectionMapper;
 import com.vtv.inspection.model.document.InspectionDocument;
 import com.vtv.inspection.model.domain.AppointmentType;
 import com.vtv.inspection.model.domain.Inspection;
@@ -22,15 +23,14 @@ import static com.vtv.inspection.model.document.InspectionDocument.CAR_PLATE_NAM
 public class InspectionRepositoryImpl implements InspectionRepository { //TODO: Handlear errores, y mappers
     private final MongoTemplate mongoTemplate;
 
+    public static final String ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_MESSAGE = "An error occurs when getting inspection by car plate";
+    public static final Integer ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_CODE = 540;
 
-    private static final String ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_MESSAGE = "An error occurs when getting inspection by car plate";
-    private static final Integer ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_CODE = 540;
+    public static final String ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_MESSAGE = "An error occurs when getting inspection by car plate";
+    public static final Integer ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_CODE = 530;
 
-    private static final String ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_MESSAGE = "An error occurs when getting inspection by car plate";
-    private static final Integer ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_CODE = 530;
-
-    private static final String ERROR_ON_SAVE_INSPECTION_MESSAGE = "An error occurs when generating the inspection";
-    private static final Integer ERROR_ON_SAVE_INSPECTION_CODE = 520;
+    public static final String ERROR_ON_SAVE_INSPECTION_MESSAGE = "An error occurs when generating the inspection";
+    public static final Integer ERROR_ON_SAVE_INSPECTION_CODE = 520;
     public InspectionRepositoryImpl(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
@@ -38,32 +38,10 @@ public class InspectionRepositoryImpl implements InspectionRepository { //TODO: 
     @Override
     public Inspection save(Inspection inspection) {
         try {
-            final var inspectionDocumentCreated = mongoTemplate.save(
-                    InspectionDocument.builder()
-                            .id(inspection.getId())
-                            .clientEmail(inspection.getClientEmail())
-                            .appointmentType(inspection.getAppointmentType())
-                            .carPlate(inspection.getCarPlate())
-                            .status(inspection.getStatus())
-                            .result(inspection.getResult())
-                            .score(inspection.getScore())
-                            .dateTime(inspection.getDateTime())
-                            .build()
-            );
-
-            return Inspection.builder()
-                    .id(inspectionDocumentCreated.getId())
-                    .result(inspectionDocumentCreated.getResult())
-                    .score(inspectionDocumentCreated.getScore())
-                    .dateTime(inspectionDocumentCreated.getDateTime())
-                    .clientEmail(inspectionDocumentCreated.getClientEmail())
-                    .appointmentType(inspectionDocumentCreated.getAppointmentType())
-                    .carPlate(inspectionDocumentCreated.getCarPlate())
-                    .status(inspectionDocumentCreated.getStatus())
-                    .build();
-
+            return InspectionMapper.toDomain(mongoTemplate
+                    .save(InspectionMapper.toEntity(inspection)));
         } catch (MongoException mongoException) {
-            log.error(ERROR_ON_SAVE_INSPECTION_MESSAGE, mongoException); //TODO: Ver de que lado meter logs
+            log.error(ERROR_ON_SAVE_INSPECTION_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
                             .description(ERROR_ON_SAVE_INSPECTION_MESSAGE)
@@ -76,7 +54,7 @@ public class InspectionRepositoryImpl implements InspectionRepository { //TODO: 
     }
 
     @Override
-    public List<Inspection> getByCarPlateAndAppointmentType(String carPlate, AppointmentType type) { //TODO: Ver si devolvemos lista o el ultimo o que devolvemos
+    public List<Inspection> getByCarPlateAndAppointmentType(String carPlate, AppointmentType type) {
 
         try {
             final var inspections = mongoTemplate.find(Query.query(Criteria
@@ -84,18 +62,7 @@ public class InspectionRepositoryImpl implements InspectionRepository { //TODO: 
                     .and(InspectionDocument.APPOINTMENT_TYPE_NAME_FIELD).is(type)), InspectionDocument.class);
 
             return inspections.stream()
-                    .map(inspectionDocument -> Inspection.builder()
-                            .id(inspectionDocument.getId())
-                            .carPlate(inspectionDocument.getCarPlate())
-                            .clientEmail(inspectionDocument.getClientEmail())
-                            .dateTime(inspectionDocument.getDateTime())
-                            .status(inspectionDocument.getStatus())
-                            .clientEmail(inspectionDocument.getClientEmail())
-                            .appointmentType(inspectionDocument.getAppointmentType())
-                            .status(inspectionDocument.getStatus())
-                            .result(inspectionDocument.getResult())
-                            .score(inspectionDocument.getScore())
-                            .build())
+                    .map(InspectionMapper::toDomain)
                     .toList();
         } catch (MongoException mongoException) {
             log.error(ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_MESSAGE, mongoException);
@@ -118,18 +85,7 @@ public class InspectionRepositoryImpl implements InspectionRepository { //TODO: 
                             .where(CAR_PLATE_NAME_FIELD).is(carPlate)), InspectionDocument.class);
 
             return inspections.stream()
-                    .map(inspectionDocument -> Inspection.builder()
-                            .id(inspectionDocument.getId())
-                            .carPlate(inspectionDocument.getCarPlate())
-                            .clientEmail(inspectionDocument.getClientEmail())
-                            .dateTime(inspectionDocument.getDateTime())
-                            .status(inspectionDocument.getStatus())
-                            .clientEmail(inspectionDocument.getClientEmail())
-                            .appointmentType(inspectionDocument.getAppointmentType())
-                            .status(inspectionDocument.getStatus())
-                            .result(inspectionDocument.getResult())
-                            .score(inspectionDocument.getScore())
-                            .build())
+                    .map(InspectionMapper::toDomain)
                     .toList();
 
         } catch (MongoException mongoException) {

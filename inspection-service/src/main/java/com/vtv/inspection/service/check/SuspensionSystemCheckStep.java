@@ -16,9 +16,9 @@ public class SuspensionSystemCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "La suspension delantera requiere un proximo mantenimiento";
+    public static final String WARNING_OBSERVATIONS = "La suspension delantera requiere un proximo mantenimiento";
 
-    private static final String DANGEROUS_OBSERVATIONS = "Sistema de suspension trasero dadado";
+    public static final String DANGEROUS_OBSERVATIONS = "Sistema de suspension trasero dadado";
 
     public SuspensionSystemCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

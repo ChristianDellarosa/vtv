@@ -15,9 +15,9 @@ public class FrontAxleCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "Se necesita alineacion y balanceo";
+    public static final String WARNING_OBSERVATIONS = "Se necesita alineacion y balanceo";
 
-    private static final String DANGEROUS_OBSERVATIONS = "Reparacion de tren delantero";
+    public static final String DANGEROUS_OBSERVATIONS = "Reparacion de tren delantero";
 
     public FrontAxleCheckStep(CheckStepScoreService checkStepScoreService,
                               CheckStepStatusService checkStepStatusService) {
