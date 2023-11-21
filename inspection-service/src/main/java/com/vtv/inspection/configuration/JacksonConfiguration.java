@@ -15,7 +15,7 @@ public class JacksonConfiguration {
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter(
-                new ObjectMapper() //TODO: Ver como generar el bean
+                new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .registerModule(new SimpleModule().addDeserializer(ZonedDateTime.class, new ZonedDateTimeDeserializer())));
     }

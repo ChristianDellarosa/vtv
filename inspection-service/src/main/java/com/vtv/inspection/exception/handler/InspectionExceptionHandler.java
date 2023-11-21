@@ -63,7 +63,7 @@ public class InspectionExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        //TODO: FIXME: Debería ser una lista de errores
+        //FIXME: Debería ser una lista de errores
         final ExceptionError exceptionError =  ex.getBindingResult()
                 .getFieldErrors().stream()
                 .findFirst()

@@ -41,7 +41,7 @@ public class InspectionController {
     }
 
     @GetMapping("/{carPlate}")
-    public List<InspectionDto> getById(@Validated @PathVariable String carPlate) { //TODO: Ver por que buscar, quizas es una lista de todas las que tuvo
+    public List<InspectionDto> getById(@Validated @PathVariable String carPlate) {
         return inspectionService.getByCarPlate(carPlate).stream()
                 .map(InspectionDtoMapper::toDto)
                 .collect(Collectors.toList());

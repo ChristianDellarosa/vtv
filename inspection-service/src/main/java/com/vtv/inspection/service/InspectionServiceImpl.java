@@ -81,7 +81,7 @@ public class InspectionServiceImpl implements InspectionService {
                 .stream()
                 .filter(insp -> InspectionStatus.PENDING.equals(insp.getStatus())
                         && insp.getDateTime().getDayOfYear() == ZonedDateTime.now().getDayOfYear()) //TODO: Que sea del dia de hoy y que este pendiente
-                .min((Comparator.comparing(Inspection::getDateTime))) //TODO: Ver si esto tiene sentido
+                .min((Comparator.comparing(Inspection::getDateTime)))
                 .orElseThrow(() -> {
                     log.info(INVALID_INSPECTION_DESCRIPTION);
                     return new InvalidInspectionException(
@@ -100,7 +100,7 @@ public class InspectionServiceImpl implements InspectionService {
         try {
             inspections = inspectionRepository.getByCarPlateAndAppointmentType(inspectionRequest.getCarPlate(), inspectionRequest.getType());
         } catch (GenericDatabaseException genericDatabaseException) {
-            throw new InspectionErrorException( //TODO: Quizas tiene sentido otra excepcion
+            throw new InspectionErrorException(
                     ExceptionError.builder()
                             .description(genericDatabaseException.getExceptionError().description())
                             .errorDetail(ErrorDetail.builder()

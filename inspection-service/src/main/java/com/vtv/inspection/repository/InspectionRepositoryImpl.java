@@ -20,7 +20,7 @@ import static com.vtv.inspection.model.document.InspectionDocument.CAR_PLATE_NAM
 
 @Repository
 @Slf4j
-public class InspectionRepositoryImpl implements InspectionRepository { //TODO: Handlear errores, y mappers
+public class InspectionRepositoryImpl implements InspectionRepository {
     private final MongoTemplate mongoTemplate;
 
     public static final String ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_MESSAGE = "An error occurs when getting inspection by car plate";
