@@ -9,8 +9,7 @@ spring:
 
   data:
     mongodb:
-      uri: 'mongodb://root:example@localhost:27017/vtv?authSource=admin'
-      #mongodb://user:passw@localhost:27017/vtv?authSource=admin
+      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
       auto-index-creation: true
 
 springdoc:
@@ -47,3 +46,5 @@ schedules:
   per-hour: 3
   holiday-days:
     - '2023-10-21'
+server:
+  port: 8081
