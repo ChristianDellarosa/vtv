@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "24165807-4fa3-43ed-a257-573403d79c20",
+		"name": "VTV Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7228203"
+	},
+	"item": [
+		{
+			"name": "appointments-microservice",
+			"item": [
+				{
+					"name": "Create appointment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n    \"carPlate\": \"KLP23456\",\r\n    \"clientEmail\": \"abcd@gmail.com\",\r\n    \"type\": \"INSPECTION\",\r\n    \"dateTime\": \"2023-10-17 09:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9820/api/v1/appointments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9820",
+							"path": [
+								"api",
+								"v1",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Appointment by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments/available",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"available"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Schedule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments/available",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"available"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "inspections-microservice",
+			"item": [
+				{
+					"name": "Inspection",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDaHJpc3RpYW4wMSIsImlzcyI6ImF1dGgtc2VydmljZSIsImV4cCI6MTcwMDQ0MDk3OSwiaWF0IjoxNzAwNDI4OTc5LCJqdGkiOiI5MjRmOWI2ZC05NTM2LTQzOGEtYjM5MC04N2RkNzllMzk4YzIifQ.gLz6lEkNKgIlqFuc-C8odmv8g3cgzUMkIUi0zLt0Zvk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"carPlate\": \"GAG263\",\r\n    \"type\": \"INSPECTION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/inspections",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"inspections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inspection by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n    \"carPlate\": \"KLP23456\",\r\n    \"clientEmail\": \"abcd@gmail.com\",\r\n    \"type\": \"INSPECTION\",\r\n    \"dateTime\": \"2023-10-17 09:30:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/v1/inspections/KLP234",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"api",
+								"v1",
+								"inspections",
+								"KLP234"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth-microservice",
+			"item": [
+				{
+					"name": "SignIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9820/api/v1/auth/sign-in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9820",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign-in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCYWVsZHVuZyBEZXRhaWxzIiwiaXNzIjoiQmFlbGR1bmciLCJleHAiOjE2OTkyMjIwMjIsInVzZXJJZCI6IkNocmlzdGlhbjAxIiwiaWF0IjoxNjk5MjIxOTAyLCJqdGkiOiJmOTJlZGMyNC1mMjQyLTQyMjItOWNhZC1kZWNjNGY1OWQ4MWQifQ._Za1pkNaHZL7YtdYZ97xt1-_WyN7E2SDyPaaEF1nO_4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9820/api/v1/session",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9820",
+							"path": [
+								"api",
+								"v1",
+								"session"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
