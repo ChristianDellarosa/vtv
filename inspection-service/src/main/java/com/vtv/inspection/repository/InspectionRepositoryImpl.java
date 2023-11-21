@@ -9,6 +9,8 @@ import com.vtv.inspection.model.domain.Inspection;
 import com.vtv.inspection.model.domain.commons.ErrorDetail;
 import com.vtv.inspection.model.domain.commons.ExceptionError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -40,7 +42,7 @@ public class InspectionRepositoryImpl implements InspectionRepository {
         try {
             return InspectionMapper.toDomain(mongoTemplate
                     .save(InspectionMapper.toEntity(inspection)));
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_SAVE_INSPECTION_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
@@ -64,7 +66,7 @@ public class InspectionRepositoryImpl implements InspectionRepository {
             return inspections.stream()
                     .map(InspectionMapper::toDomain)
                     .toList();
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_AND_APPOINTMENT_TYPE_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
@@ -88,7 +90,7 @@ public class InspectionRepositoryImpl implements InspectionRepository {
                     .map(InspectionMapper::toDomain)
                     .toList();
 
-        } catch (MongoException mongoException) {
+        } catch (MongoException | DataAccessException mongoException) {
             log.error(ERROR_ON_GET_INSPECTION_BY_CAR_PLATE_MESSAGE, mongoException);
             throw new GenericDatabaseException(
                     ExceptionError.builder()
