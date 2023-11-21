@@ -59,7 +59,7 @@ public class AppointmentExceptionHandler extends ResponseEntityExceptionHandler 
                 .body(buildApiError(exception.getExceptionError(), request));
     }
 
-    @ExceptionHandler({ScheduleErrorException.class, OrderInspectionErrorException.class})
+    @ExceptionHandler({ScheduleErrorException.class, OrderInspectionErrorException.class, AppointmentErrorException.class})
     public ResponseEntity<ApiError> handleScheduleErrorException(BaseException exception, WebRequest request) {
 
         return ResponseEntity

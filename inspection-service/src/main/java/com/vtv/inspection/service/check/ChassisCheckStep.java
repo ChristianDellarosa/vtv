@@ -15,9 +15,9 @@ public class ChassisCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "Deberia realizarse el arreglo del paragolpes trasero";
+    public static final String WARNING_OBSERVATIONS = "Deberia realizarse el arreglo del paragolpes trasero";
 
-    private static final String DANGEROUS_OBSERVATIONS = "Reparacion urgente del capot";
+    public static final String DANGEROUS_OBSERVATIONS = "Reparacion urgente del capot";
 
     public ChassisCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

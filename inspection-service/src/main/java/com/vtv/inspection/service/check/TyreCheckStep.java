@@ -16,9 +16,9 @@ public class TyreCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "El neumatico delantero derecho necesita alineacion y balanceo";
+    public static final String WARNING_OBSERVATIONS = "El neumatico delantero derecho necesita alineacion y balanceo";
 
-    private static final String DANGEROUS_OBSERVATIONS = "No posee neumatico de auxilio";
+    public static final String DANGEROUS_OBSERVATIONS = "No posee neumatico de auxilio";
 
     public TyreCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

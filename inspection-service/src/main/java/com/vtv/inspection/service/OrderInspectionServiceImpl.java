@@ -22,9 +22,9 @@ public class OrderInspectionServiceImpl implements OrderInspectionService {
 
     private final Map<OrderType, OrderInspectionStrategy> orderInspectionStrategyMap;
 
-    private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_DESCRIPTION = "The strategy to process inspection order does not exist";
-    private static final Integer ORDER_INSPECTION_STRATEGY_NOT_EXISTS_CODE = 300;
-    private static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_MESSAGE = "The order Inspection strategy not exists";
+    public static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_DESCRIPTION = "The strategy to process inspection order does not exist";
+    public static final Integer ORDER_INSPECTION_STRATEGY_NOT_EXISTS_CODE = 300;
+    public static final String ORDER_INSPECTION_STRATEGY_NOT_EXISTS_MESSAGE = "The order Inspection strategy not exists";
 
     public OrderInspectionServiceImpl(List<OrderInspectionStrategy> orderInspectionStrategies) {
         this.orderInspectionStrategyMap = orderInspectionStrategies.stream().collect(Collectors.toMap(OrderInspectionStrategy::getType, identity()));

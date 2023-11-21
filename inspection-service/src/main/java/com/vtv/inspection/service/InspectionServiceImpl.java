@@ -32,12 +32,12 @@ public class InspectionServiceImpl implements InspectionService {
 
     private final AuthClient authClient;
 
-    private static final String UNAUTHORIZED_USER_DESCRIPTION = "The user is not authorized to perform an inspection, please sign in to auth service";
-    private static final String VALIDATE_SESSION_ERROR_DESCRIPTION = "An error occurred while validating session user";
+    public static final String UNAUTHORIZED_USER_DESCRIPTION = "The user is not authorized to perform an inspection, please sign in to auth service";
+    public static final String VALIDATE_SESSION_ERROR_DESCRIPTION = "An error occurred while validating session user";
 
-    private static final String INVALID_INSPECTION_DESCRIPTION = "The inspection entered is not valid either because it does not belong to today or because it does not exist";
-    private static final Integer INVALID_INSPECTION_DESCRIPTION_CODE = 310;
-    private static final String INVALID_INSPECTION_DESCRIPTION_MESSAGE = "The inspection entered is not valid";
+    public static final String INVALID_INSPECTION_DESCRIPTION = "The inspection entered is not valid either because it does not belong to today or because it does not exist";
+    public static final Integer INVALID_INSPECTION_DESCRIPTION_CODE = 310;
+    public static final String INVALID_INSPECTION_DESCRIPTION_MESSAGE = "The inspection entered is not valid";
 
     public InspectionServiceImpl(List<CheckableStep> checkableSteps, InspectionRepository inspectionRepository, AuthClient authClient) {
         this.checkableSteps = checkableSteps;
@@ -81,7 +81,7 @@ public class InspectionServiceImpl implements InspectionService {
                 .stream()
                 .filter(insp -> InspectionStatus.PENDING.equals(insp.getStatus())
                         && insp.getDateTime().getDayOfYear() == ZonedDateTime.now().getDayOfYear()) //TODO: Que sea del dia de hoy y que este pendiente
-                .min((Comparator.comparing(Inspection::getDateTime))) //TODO: Ver si esto tiene sentido
+                .min((Comparator.comparing(Inspection::getDateTime)))
                 .orElseThrow(() -> {
                     log.info(INVALID_INSPECTION_DESCRIPTION);
                     return new InvalidInspectionException(
@@ -100,7 +100,7 @@ public class InspectionServiceImpl implements InspectionService {
         try {
             inspections = inspectionRepository.getByCarPlateAndAppointmentType(inspectionRequest.getCarPlate(), inspectionRequest.getType());
         } catch (GenericDatabaseException genericDatabaseException) {
-            throw new InspectionErrorException( //TODO: Quizas tiene sentido otra excepcion
+            throw new InspectionErrorException(
                     ExceptionError.builder()
                             .description(genericDatabaseException.getExceptionError().description())
                             .errorDetail(ErrorDetail.builder()
@@ -118,7 +118,7 @@ public class InspectionServiceImpl implements InspectionService {
         try {
             return inspectionRepository.getByCarPlate(carPlate);
         } catch (GenericDatabaseException genericDatabaseException) {
-            throw new InspectionErrorException( //TODO: Quizas tiene sentido otra excepcion
+            throw new InspectionErrorException(
                     ExceptionError.builder()
                             .description(genericDatabaseException.getExceptionError().description())
                             .errorDetail(ErrorDetail.builder()

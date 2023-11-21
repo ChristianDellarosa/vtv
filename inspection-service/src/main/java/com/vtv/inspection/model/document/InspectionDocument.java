@@ -35,7 +35,7 @@ public class InspectionDocument {
     private Integer score;
     private InspectionResult result;
     @CreatedDate
-    private Date createAt; //TODO: No esta funcionando!
+    private Date createAt; //FIXME: No esta funcionando!
     @LastModifiedDate
-    private Date updateAt; //TODO: No esta funcionando
+    private Date updateAt; //FIXME: No esta funcionando
 }

@@ -1,7 +1,14 @@
-server:
-  port: 8081
+springdoc:
+  packages-to-scan: com.vtv.auth.controller
+  api-docs:
+    path: '/api-docs'
+  swagger-ui:
+    path: '/auth-docs'
 
 token:
   basic-auth:
-    expireAtInSeconds: 12000
+    expireAtInSeconds: 1200
     secret: 'hola'
+
+server:
+  port: 8081

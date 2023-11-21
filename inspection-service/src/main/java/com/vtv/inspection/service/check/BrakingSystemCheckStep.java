@@ -15,9 +15,9 @@ public class BrakingSystemCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "Deberia realizarse el cambio de pastillas de freno";
+    public static final String WARNING_OBSERVATIONS = "Deberia realizarse el cambio de pastillas de freno";
 
-    private static final String DANGEROUS_OBSERVATIONS = "La rueda izquierda delantera frena un 5% menos";
+    public static final String DANGEROUS_OBSERVATIONS = "La rueda izquierda delantera frena un 5% menos";
     public BrakingSystemCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;
         this.checkStepStatusService = checkStepStatusService;

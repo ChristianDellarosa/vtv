@@ -13,8 +13,7 @@ import static com.vtv.inspection.model.domain.InspectionStatus.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class InspectionResult { //TODO: Ver si es necesario que exista
-    //todo: Deberia tener un finished date, el score aca dentro y los calcular quizas deberian ser parte del service
+public class InspectionResult {
     private List<CheckableStepResult> checkableStepResults;
 
     public Integer calculateScore() {

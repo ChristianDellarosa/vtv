@@ -15,9 +15,9 @@ public class SafetyDevicesCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "El matafuego esta proximo a vencerse";
+    public static final String WARNING_OBSERVATIONS = "El matafuego esta proximo a vencerse";
 
-    private static final String DANGEROUS_OBSERVATIONS = "El cinturon de seguridad del acompañante esta dañado";
+    public static final String DANGEROUS_OBSERVATIONS = "El cinturon de seguridad del acompañante esta dañado";
 
     public SafetyDevicesCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

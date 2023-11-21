@@ -18,6 +18,6 @@ public class Inspection {
     private ZonedDateTime dateTime;
     private AppointmentType appointmentType;
     private InspectionStatus status;
-    private Integer score; //TODO: Analizar si va aca
-    private InspectionResult result; //TODO: Details
+    private Integer score;
+    private InspectionResult result;
 }

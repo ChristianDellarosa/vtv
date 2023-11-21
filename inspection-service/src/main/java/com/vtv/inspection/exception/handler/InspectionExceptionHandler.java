@@ -61,28 +61,9 @@ public class InspectionExceptionHandler extends ResponseEntityExceptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(buildApiError(exception.getExceptionError(), request));
     }
-
-    //    @ExceptionHandler(GenericUnauthorizedException.class)
-//    public ResponseEntity<ApiError> handleGenericUnauthorizedException(GenericUnauthorizedException exception, WebRequest request) {
-//
-//        return ResponseEntity
-//                .status(HttpStatus.UNAUTHORIZED)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(buildApiError(exception.getExceptionError(), request));
-//    }
-
-//    @ExceptionHandler(GenericServerInternalException.class) //TODO: Quizas no deberia estar, porque no es de negocio, nadie deberia lanzar esta excepcion?
-//    public ResponseEntity<ApiError> handleGenericServerInternalException(GenericServerInternalException exception, WebRequest request) {
-//
-//        return ResponseEntity
-//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(buildApiError(exception.getExceptionError(), request));
-//    }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        //TODO: FIXME: Debería ser una lista de errores
+        //FIXME: Debería ser una lista de errores
         final ExceptionError exceptionError =  ex.getBindingResult()
                 .getFieldErrors().stream()
                 .findFirst()

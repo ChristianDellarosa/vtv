@@ -8,11 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ScheduleErrorException extends BaseException {
-
-    public ScheduleErrorException(ExceptionError exceptionError) {
-        super(exceptionError);
-    }
-
     public ScheduleErrorException(ExceptionError exceptionError, Throwable cause) {
         super(exceptionError, cause);
     }

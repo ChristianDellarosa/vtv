@@ -16,9 +16,9 @@ public class RegulatoryLightsCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "Las luces bajas estan desalineadas";
+    public static final String WARNING_OBSERVATIONS = "Las luces bajas estan desalineadas";
 
-    private static final String DANGEROUS_OBSERVATIONS = "Luces traseras de giro no funcionan";
+    public static final String DANGEROUS_OBSERVATIONS = "Luces traseras de giro no funcionan";
 
     public RegulatoryLightsCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

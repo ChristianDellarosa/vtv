@@ -7,9 +7,10 @@ spring:
 
   data:
     mongodb:
-      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      uri: 'mongodb://root:example@localhost:27017/vtv?authSource=admin'
       #Deberían ser dos bases independientes, por temas practicos cree una sola llamada 'vtv'
       auto-index-creation: true
+
 
 client:
   auth:
@@ -27,6 +28,14 @@ check-test:
   is-observed-check-case: true
   is-rejected-check-case: false
   is-reject-by-less-than-five-points-check-case: false
+
+
+springdoc:
+  packages-to-scan: com.vtv.inspection.controller
+  api-docs:
+    path: '/api-docs'
+  swagger-ui:
+    path: '/inspection-docs'
 
 server:
   port: 8082

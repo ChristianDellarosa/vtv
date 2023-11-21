@@ -1,6 +1,6 @@
 package com.vtv.inspection.service;
 
-import com.vtv.inspection.configuration.CheckConfiguration;
+import com.vtv.inspection.configuration.CheckStepMockConfiguration;
 import com.vtv.inspection.model.domain.CheckableStepName;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.Random;
 
 @Service
 public class MockCheckStepScoreService implements CheckStepScoreService {
-    private final CheckConfiguration checkConfiguration;
+    private final CheckStepMockConfiguration checkStepMockConfiguration;
 
     private static final Integer APPROVED_SCORE = 10;
 
@@ -25,17 +25,17 @@ public class MockCheckStepScoreService implements CheckStepScoreService {
     private static final Integer OBSERVED_SCORE_MAX = 9;
     private final Random random;
 
-    public MockCheckStepScoreService(CheckConfiguration checkConfiguration) {
-        this.checkConfiguration = checkConfiguration;
+    public MockCheckStepScoreService(CheckStepMockConfiguration checkStepMockConfiguration) {
+        this.checkStepMockConfiguration = checkStepMockConfiguration;
         this.random = new Random();
     }
 
     @Override
     public Integer getScore(CheckableStepName stepName) {
         if(CheckableStepName.BRAKING_SYSTEM.equals(stepName)) {
-            return checkConfiguration.getIsRejectByLessThanFivePointsCheckCase()? getRejectedLessThanFiveScore() : checkConfiguration.getIsRejectedCheckCase()? REJECTED_CUSTOM : checkConfiguration.getIsObservedCheckCase()? getObservedScore() : APPROVED_SCORE;
+            return checkStepMockConfiguration.getIsRejectByLessThanFivePointsCheckCase()? getRejectedLessThanFiveScore() : checkStepMockConfiguration.getIsRejectedCheckCase()? REJECTED_CUSTOM : checkStepMockConfiguration.getIsObservedCheckCase()? getObservedScore() : APPROVED_SCORE;
         }
-        return checkConfiguration.getIsRejectedCheckCase()? getRejectedScore() : checkConfiguration.getIsObservedCheckCase()? getObservedScore() : APPROVED_SCORE;
+        return checkStepMockConfiguration.getIsRejectedCheckCase()? getRejectedScore() : checkStepMockConfiguration.getIsObservedCheckCase()? getObservedScore() : APPROVED_SCORE;
     }
 
 

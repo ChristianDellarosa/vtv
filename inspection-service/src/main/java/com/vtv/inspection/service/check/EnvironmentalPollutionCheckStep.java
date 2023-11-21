@@ -15,9 +15,9 @@ public class EnvironmentalPollutionCheckStep implements CheckableStep {
 
     private final CheckStepStatusService checkStepStatusService;
 
-    private static final String WARNING_OBSERVATIONS = "Limpieza de inyectores por los gasaes producidos";
+    public static final String WARNING_OBSERVATIONS = "Limpieza de inyectores por los gasaes producidos";
 
-    private static final String DANGEROUS_OBSERVATIONS = "Reparacion de motor por perdida de aceite";
+    public static final String DANGEROUS_OBSERVATIONS = "Reparacion de motor por perdida de aceite";
 
     public EnvironmentalPollutionCheckStep(CheckStepScoreService checkStepScoreService, CheckStepStatusService checkStepStatusService) {
         this.checkStepScoreService = checkStepScoreService;

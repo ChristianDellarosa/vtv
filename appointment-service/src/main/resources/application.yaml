@@ -9,9 +9,16 @@ spring:
 
   data:
     mongodb:
-      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      uri: 'mongodb://root:example@localhost:27017/vtv?authSource=admin'
       #mongodb://user:passw@localhost:27017/vtv?authSource=admin
       auto-index-creation: true
+
+springdoc:
+  packages-to-scan: com.vtv.appointment.controller
+  api-docs:
+    path: '/api-docs'
+  swagger-ui:
+    path: '/appointments-docs'
 
 producer:
   inspection:
@@ -40,7 +47,3 @@ schedules:
   per-hour: 3
   holiday-days:
     - '2023-10-21'
-
-
-server:
-  port: 9820
