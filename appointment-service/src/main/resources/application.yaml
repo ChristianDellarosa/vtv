@@ -13,6 +13,13 @@ spring:
       #mongodb://user:passw@localhost:27017/vtv?authSource=admin
       auto-index-creation: true
 
+springdoc:
+  packages-to-scan: com.vtv.appointment.controller
+  api-docs:
+    path: '/api-docs'
+  swagger-ui:
+    path: '/appointments-docs'
+
 producer:
   inspection:
     queue-name: 'cola1'
