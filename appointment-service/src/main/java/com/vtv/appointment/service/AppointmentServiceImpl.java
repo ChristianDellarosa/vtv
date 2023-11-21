@@ -1,6 +1,7 @@
 package com.vtv.appointment.service;
 
 import com.vtv.appointment.exception.AppointmentAlreadyExistsException;
+import com.vtv.appointment.exception.AppointmentErrorException;
 import com.vtv.appointment.exception.AppointmentNotFoundException;
 import com.vtv.appointment.exception.InvalidAppointmentDateTimeException;
 import com.vtv.appointment.exception.ScheduleErrorException;
@@ -30,23 +31,23 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private final InspectionProducerService inspectionProducerService;
 
-    private static final String CREATE_APPOINTMENT_ERROR_MESSAGE = "An error occurred while creating appointment.";
-    private static final Integer CREATE_APPOINTMENT_ERROR_CODE = 305;
+    public static final String CREATE_APPOINTMENT_ERROR_MESSAGE = "An error occurred while creating appointment.";
+    public static final Integer CREATE_APPOINTMENT_ERROR_CODE = 305;
 
-    private static final String APPOINTMENT_ALREADY_EXISTS_MESSAGE = "There is already a reserved slot for that vehicle for the day %s";
-    private static final Integer APPOINTMENT_ALREADY_EXISTS_CODE = 306;
+    public static final String APPOINTMENT_ALREADY_EXISTS_MESSAGE = "There is already a reserved slot for that vehicle for the day %s";
+    public static final Integer APPOINTMENT_ALREADY_EXISTS_CODE = 306;
 
-    private static final String INVALID_RE_APPOINTMENT_DATE_MESSAGE = "You cannot generate a shift prior to one already assigned.";
-    private static final Integer INVALID_RE_APPOINTMENT_DATE_CODE = 307;
+    public static final String INVALID_RE_APPOINTMENT_DATE_MESSAGE = "You cannot generate a shift prior to one already assigned.";
+    public static final Integer INVALID_RE_APPOINTMENT_DATE_CODE = 307;
 
-    private static final String INVALID_APPOINTMENT_DATE_MESSAGE = "The appointment date is not valid.";
-    private static final Integer INVALID_APPOINTMENT_DATE_CODE = 307;
+    public static final String INVALID_APPOINTMENT_DATE_MESSAGE = "The appointment date is not valid.";
+    public static final Integer INVALID_APPOINTMENT_DATE_CODE = 307;
 
-    private static final String FULL_BOOKING_APPOINTMENT_DATE_TIME_MESSAGE = "There are no appointments available for that date and time";
-    private static final Integer FULL_BOOKING_APPOINTMENT_DATE_TIME_CODE = 308;
+    public static final String FULL_BOOKING_APPOINTMENT_DATE_TIME_MESSAGE = "There are no appointments available for that date and time";
+    public static final Integer FULL_BOOKING_APPOINTMENT_DATE_TIME_CODE = 308;
 
-    private static final String APPOINTMENT_NOT_FOUND_MESSAGE = "Appointment not found by car plate";
-    private static final Integer APPOINTMENT_NOT_FOUND_CODE = 309;
+    public static final String APPOINTMENT_NOT_FOUND_MESSAGE = "Appointment not found by car plate";
+    public static final Integer APPOINTMENT_NOT_FOUND_CODE = 309;
 
     public AppointmentServiceImpl(AppointmentRepository appointmentRepository,
                                   ScheduleService scheduleService,
@@ -58,15 +59,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment create(Appointment appointment) {
-        //TODO: FALTAN VALIDACIONES DE VALIDATORS JAVA
-        //TODO: Revisar Logica ya que no puedo reservar un turno para hoy, entonces como voy a reparar algo que no es para hoy? como para hacer una demo
-        //TODO: Analizar el orden de las validaciones
-        log.info(appointment.toString());
-
-        //1) Buscar si ya no tenia un turno de revision previo
-        //TODO: BUG: No te deja sacar RE_INSPECCIONES
         final List<Appointment> appointmentsByCarPlate = getAppointmentsByCarPlate(appointment);
 
+        //1: Checkea si tenia un turno asignado previamente
         if (appointment.isInspection()) {
             appointmentsByCarPlate.stream()
                     .filter(Appointment::isInspection)
@@ -82,11 +77,10 @@ public class AppointmentServiceImpl implements AppointmentService {
                                                 .message(message)
                                                 .build())
                                         .build());
-                    }); //Checkea si tenia un turno asignado previamente
+                    });
         }
 
-        //2: Si es una re-reparacion, deberá chequearse que es posterior al turno de reparacion
-        //   Si es una re-reparacion, y se asigna un nuevo turno (para re-re-repararlo) ese turno deberá ser posterior a la re-reparacion que ya tenia
+        //2: Si es una re-reparacion, deberá chequearse que es posterior al turno de reparacion o la anteriore re-reparacion
         if (!isValidReInspectionAppointment(appointmentsByCarPlate, appointment)) {
             log.info(APPOINTMENT_ALREADY_EXISTS_MESSAGE);
             throw new InvalidAppointmentDateTimeException(
@@ -99,7 +93,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                             .build());
         }
 
-        //3) Buscar si la fecha es valida en nuestras condiciones
+        //3: Buscar si la fecha es valida en nuestras condiciones
         if (!scheduleService.isValidDate(appointment.getDateTime()) || !scheduleService.isValidTime(appointment.getDateTime().toLocalTime())) {
             log.info(INVALID_APPOINTMENT_DATE_MESSAGE);
             throw new InvalidAppointmentDateTimeException(
@@ -112,7 +106,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                             .build());
         }
 
-        //4) si hay turnos disponibles en base a la cantidad por horario
+        //4: si hay turnos disponibles en base a la cantidad por horario
         if (!scheduleService.isAvailableDateTime(appointment.getDateTime())) {
             log.info(FULL_BOOKING_APPOINTMENT_DATE_TIME_MESSAGE);
             throw new InvalidAppointmentDateTimeException(
@@ -164,7 +158,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return appointmentRepository.create(appointment);
         } catch (GenericDatabaseException genericDatabaseException) {
             log.error(CREATE_APPOINTMENT_ERROR_MESSAGE, genericDatabaseException);
-            throw new ScheduleErrorException(
+            throw new AppointmentErrorException(
                     ExceptionError.builder()
                             .description(CREATE_APPOINTMENT_ERROR_MESSAGE)
                             .errorDetail(ErrorDetail.builder()
@@ -189,10 +183,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                                     .build())
                             .build(), genericDatabaseException);
         }
-
     }
-
-
 
     private Boolean isValidReInspectionAppointment(List<Appointment> appointmentsByCarPlate, Appointment actualAppointment) {
 
