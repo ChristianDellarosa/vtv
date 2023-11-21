@@ -6,6 +6,8 @@ import com.vtv.inspection.model.domain.AppointmentType;
 import com.vtv.inspection.model.domain.Inspection;
 import com.vtv.inspection.model.domain.InspectionStatus;
 
+import java.time.ZonedDateTime;
+
 public class InspectionFactory {
 
     public static Inspection buildInspection() {
@@ -13,6 +15,15 @@ public class InspectionFactory {
                 .appointmentType(AppointmentType.INSPECTION)
                 .carPlate("ABC123")
                 .status(InspectionStatus.PENDING)
+                .build();
+    }
+
+    public static Inspection buildInspection(ZonedDateTime dateTime) {
+        return Inspection.builder()
+                .appointmentType(AppointmentType.INSPECTION)
+                .carPlate("ABC123")
+                .status(InspectionStatus.PENDING)
+                .dateTime(dateTime)
                 .build();
     }
 
