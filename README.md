@@ -169,8 +169,6 @@ check-test:
 ### Run
 
 Una vez configuradas las variables anteriormente mencionadas, y teniendo las instancias de MongoDB y RabbitMQ en funcionamiento, por ultimo restaria levantar los tres microservicios de nuestro sistema.
-Actualmente no disponemos de nuestra aplicacion dockerizada, o por ejemplo con una herramienta como docker-compose para levantar todo el ambiente de manera mas agil (se esta trabajando en esto)
-Por el momento es necesario ejecutar los siguientes comandos en consola
 
 #### Run Appointment
 Posicionados sobre el root del proyecto ejecutamos
@@ -202,7 +200,52 @@ Posicionados sobre el root del proyecto ejecutamos
 ```CMD
 cd inspection-service
 ```
-
 ```CMD
 ./gradlew bootRun
 ```
+
+### Run with DockerCompose
+Utilizando docker-compose podriamos facilmente levantar todos los microservicios y los servicios de MongoDB y RabbitMQ de la siguiente forma
+
+* Primero deberemos buildear **TODOS** los microservicios
+
+#### Build Auth
+
+```CMD
+cd auth-service
+```
+
+```CMD
+./gradlew build
+```
+
+#### Build Appointment
+```CMD
+cd appointment-service
+```
+
+```CMD
+./gradlew build
+```
+
+#### Build Inspection
+
+```CMD
+cd inspection-service
+```
+
+```CMD
+./gradlew build
+```
+
+Luego de buildear nuestros microservicios (Momentaneamente es un proceso manual, que a futuro se podria automatizar como un stage del docker file para levantar todo el ambiente de manera mas agil se esta trabajando en esto)
+
+* Nos paramos en el root del proyecto y ejecutamos
+
+```CMD
+docker-compose up -d
+```
+Esto nos ejecutaria todos los servicios en conjunto con un contenedor de MongoDB y RabbitMQ
+
+* Por ultimo deberemos ingresar manualmente (se esta trabajando para automatizarlo) en la web de administracion de rabbitMQ y generar la cola de mensajeria con nombre `cola1`
+Luego Stopear el docker-compose y volver a iniciarlo y la aplicacion funcionará correctamente
