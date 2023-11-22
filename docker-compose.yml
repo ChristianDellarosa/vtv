@@ -1,0 +1,51 @@
+version: '3.0'
+services:
+  appointment:
+    environment:
+      TZ: "America/Buenos_Aires"
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+
+  inspection:
+    environment:
+      TZ: "America/Buenos_Aires"
+      IS_APPROVED_CHECK_CASE: true
+      IS_OBSERVED_CHECK_CASE: false
+      IS_REJECTED_CHECK_CASE: false
+      IS_REJECT_BY_LESS_THAN_FIVE_POINTS_CHECK_CASE: false
+    build:
+      context: ./inspection-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+
+  auth:
+    environment:
+      TZ: "America/Buenos_Aires"
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: passw
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+
+  rabbitmq:
+    hostname: rabbitmq
+    image: rabbitmq:3.12-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: unless-stopped
+
+
