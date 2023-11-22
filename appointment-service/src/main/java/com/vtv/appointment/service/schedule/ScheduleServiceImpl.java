@@ -110,7 +110,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private List<ZonedDateTime> getNotAvailableDateTimes(Pair<ZonedDateTime, ZonedDateTime> dateTimePair) {
         final List<Appointment> appointments = getAppointmentsByDateTimeRange(dateTimePair);
 
-        final Function<ZonedDateTime, ZonedDateTime> key = dateTime -> dateTime; //TODO: Como reemplazar esto?
+        final Function<ZonedDateTime, ZonedDateTime> key = dateTime -> dateTime;
         final Map<ZonedDateTime, Long> appointmentsQuantityByDateTime = appointments.stream()
                 .map(Appointment::getDateTime)
                 .collect(Collectors.groupingBy(key, Collectors.counting()));

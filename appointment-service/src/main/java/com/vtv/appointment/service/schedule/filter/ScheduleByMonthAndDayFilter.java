@@ -32,7 +32,6 @@ public class ScheduleByMonthAndDayFilter extends ScheduleFilter {
     @Override
     public Pair<ZonedDateTime, ZonedDateTime> find() {
         try {
-            //TODO: La hora tiene que estar predefinida por las properties, hora minima y hora maxima
             final ZonedDateTime firstDateValid = ZonedDateTime.of(LocalDate.of(getCurrentlyYear(), scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(HOUR_ZERO, MINUTE_ZERO, SECOND_ZERO), getZoneId());
             final ZonedDateTime lastDateValid = ZonedDateTime.of(LocalDate.of(getCurrentlyYear(), scheduleQuery.getMonth(), scheduleQuery.getDayNumber()).atTime(HOUR_TWENTY_TREE, MINUTE_FIFTY_NINE, SECOND_FIFTY_NINE), getZoneId());
             return Pair.of(firstDateValid, lastDateValid);

@@ -38,5 +38,3 @@ public class AppointmentController {
     }
 
 }
-
-//TODO: Agregar Swagger como docu
