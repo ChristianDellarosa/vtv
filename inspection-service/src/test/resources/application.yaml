@@ -1,0 +1,39 @@
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  data:
+    mongodb:
+      uri: 'mongodb://user:passw@mongo:27017/vtv?authSource=admin'
+      auto-index-creation: true
+
+client:
+  auth:
+    base-url: 'http://auth:8083'
+    rest-client-timeout-in-ms: 3000
+    resources:
+      validate-session: '/api/v1/session'
+
+queues:
+  appointment: 'cola1'
+
+
+check-test:
+  is-approved-check-case: false
+  is-observed-check-case: false
+  is-rejected-check-case: false
+  is-reject-by-less-than-five-points-check-case: true
+
+
+springdoc:
+  packages-to-scan: com.vtv.inspection.controller
+  api-docs:
+    path: '/api-docs'
+  swagger-ui:
+    path: '/inspection-docs'
+
+server:
+  port: 8082
