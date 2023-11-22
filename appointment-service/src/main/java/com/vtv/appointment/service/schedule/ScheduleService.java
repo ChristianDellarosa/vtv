@@ -10,9 +10,9 @@ import java.util.List;
 public interface ScheduleService {
     List<ZonedDateTime> get(ScheduleQuery scheduleQuery);
 
-    Boolean isValidDate(ZonedDateTime dateTime); //TODO: Por temas de dependencias ciclicas quizas debería ser un servicio aparte
+    Boolean isValidDate(ZonedDateTime dateTime);
 
-    Boolean isAvailableDateTime(ZonedDateTime dateTime); //TODO: Por temas de dependencias ciclicas quizas debería ser un servicio aparte
+    Boolean isAvailableDateTime(ZonedDateTime dateTime);
 
     Boolean isValidTime(LocalTime dateTime);
 }

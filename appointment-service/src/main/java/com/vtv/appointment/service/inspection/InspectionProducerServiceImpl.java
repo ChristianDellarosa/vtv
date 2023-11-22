@@ -21,8 +21,7 @@ public class InspectionProducerServiceImpl implements InspectionProducerService 
     public InspectionProducerServiceImpl(ProducerClient<OrderInspectionDto> producerClient) {
         this.producerClient = producerClient;
     }
-
-   //TODO: Deberia ser asincronico enviar el evento, o analizar si tiene sentido que pasa si falla digamos
+    //TODO: ASYNC?
     @Override
     public void orderInspection(OrderInspectionDto orderInspectionDto) {
         try {

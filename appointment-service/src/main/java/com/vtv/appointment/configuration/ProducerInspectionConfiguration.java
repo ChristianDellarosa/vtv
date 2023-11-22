@@ -41,7 +41,7 @@ public class ProducerInspectionConfiguration {
     @Bean
     public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(converter(new ObjectMapper() //TODO: Ver como generar los beans mas ordenados
+        rabbitTemplate.setMessageConverter(converter(new ObjectMapper()
                 .registerModule(new SimpleModule()
                         .addSerializer(ZonedDateTime.class, new ZonedDateTimeSerializer(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT,
                                 DateUtils.getLocale()))))));

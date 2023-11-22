@@ -194,14 +194,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         final var hasPreviousInspection = appointmentsByCarPlate.stream()
                 .filter(ap -> AppointmentType.INSPECTION.equals(ap.getType()))
                 .map(Appointment::getDateTime)
-                .allMatch(dateTime -> dateTime.getDayOfYear() <= actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
-                        && dateTime.getHour() < actualAppointment.getDateTime().getHour()); //TODO: Delete for DEMO
+                .allMatch(dateTime -> dateTime.getDayOfYear() < actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
+                        || dateTime.getDayOfYear() == actualAppointment.getDateTime().getDayOfYear() && dateTime.getHour() < actualAppointment.getDateTime().getHour()); //TODO: Delete for DEMO
 
         final var hasPreviousReinspection = appointmentsByCarPlate.stream()
                 .filter(ap -> AppointmentType.RE_INSPECTION.equals(ap.getType()))
                 .map(Appointment::getDateTime)
-                .allMatch(dateTime -> dateTime.getDayOfYear() <= actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
-                        && dateTime.getHour() < actualAppointment.getDateTime().getHour()); //TODO: Delete for DEMO
+                .allMatch(dateTime -> dateTime.getDayOfYear() < actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
+                        || dateTime.getDayOfYear() == actualAppointment.getDateTime().getDayOfYear() && dateTime.getHour() < actualAppointment.getDateTime().getHour());
 
         return hasPreviousInspection && hasPreviousReinspection;
     }
