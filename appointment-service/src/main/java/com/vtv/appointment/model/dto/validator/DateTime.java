@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DateTime {
 
-    String message() default "The appointment date must be after the current day.";
+    String message() default "The appointment date must be after the current time.";
 
     Class<?>[] groups() default {};
 

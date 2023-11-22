@@ -37,7 +37,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public static final String APPOINTMENT_ALREADY_EXISTS_MESSAGE = "There is already a reserved slot for that vehicle for the day %s";
     public static final Integer APPOINTMENT_ALREADY_EXISTS_CODE = 306;
 
-    public static final String INVALID_RE_APPOINTMENT_DATE_MESSAGE = "You cannot generate a shift prior to one already assigned.";
+    public static final String INVALID_RE_APPOINTMENT_DATE_MESSAGE = "You cannot generate a appointment prior to one already assigned.";
     public static final Integer INVALID_RE_APPOINTMENT_DATE_CODE = 307;
 
     public static final String INVALID_APPOINTMENT_DATE_MESSAGE = "The appointment date is not valid.";
@@ -194,12 +194,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         final var hasPreviousInspection = appointmentsByCarPlate.stream()
                 .filter(ap -> AppointmentType.INSPECTION.equals(ap.getType()))
                 .map(Appointment::getDateTime)
-                .allMatch(dateTime -> dateTime.getDayOfYear() < actualAppointment.getDateTime().getDayOfYear());
+                .allMatch(dateTime -> dateTime.getDayOfYear() <= actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
+                        && dateTime.getHour() < actualAppointment.getDateTime().getHour()); //TODO: Delete for DEMO
 
         final var hasPreviousReinspection = appointmentsByCarPlate.stream()
                 .filter(ap -> AppointmentType.RE_INSPECTION.equals(ap.getType()))
                 .map(Appointment::getDateTime)
-                .allMatch(dateTime -> dateTime.getDayOfYear() < actualAppointment.getDateTime().getDayOfYear());
+                .allMatch(dateTime -> dateTime.getDayOfYear() <= actualAppointment.getDateTime().getDayOfYear() //TODO: Delete = for Demo
+                        && dateTime.getHour() < actualAppointment.getDateTime().getHour()); //TODO: Delete for DEMO
 
         return hasPreviousInspection && hasPreviousReinspection;
     }

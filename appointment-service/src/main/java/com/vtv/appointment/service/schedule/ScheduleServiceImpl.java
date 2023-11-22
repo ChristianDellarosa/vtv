@@ -65,13 +65,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public Boolean isValidDate(ZonedDateTime date) {
         final var dateNow = ZonedDateTime.now();
-        final var isDayAfterToday = dateNow.getDayOfYear() < date.getDayOfYear(); //No te permito sacar turno para el mismo dia
+        final var isDayAfterOrEqualToday = dateNow.getDayOfYear() <= date.getDayOfYear(); //TODO: Delete = for Demo
         final var isDateEnabled =
                 scheduleConfiguration.getDaysEnable().contains(date.getDayOfWeek()) &&
                         scheduleConfiguration.getMonthsEnable().contains(date.getMonth()) &&
                         !scheduleConfiguration.getHolidayDays().contains(date.toLocalDate());
 
-        return isDayAfterToday && isDateEnabled;
+        return isDayAfterOrEqualToday && isDateEnabled;
     }
 
     public Boolean isValidTime(LocalTime time) {
