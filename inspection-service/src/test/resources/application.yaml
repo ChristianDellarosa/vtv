@@ -22,10 +22,10 @@ queues:
 
 
 check-test:
-  is-approved-check-case: ${IS_APPROVED_CHECK_CASE}
-  is-observed-check-case: ${IS_OBSERVED_CHECK_CASE}
-  is-rejected-check-case: ${IS_REJECTED_CHECK_CASE}
-  is-reject-by-less-than-five-points-check-case: ${IS_REJECT_BY_LESS_THAN_FIVE_POINTS_CHECK_CASE}
+  is-approved-check-case: false
+  is-observed-check-case: false
+  is-rejected-check-case: false
+  is-reject-by-less-than-five-points-check-case: true
 
 
 springdoc:

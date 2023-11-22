@@ -2,14 +2,14 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
 
   data:
     mongodb:
-      uri: 'mongodb://user:passw@localhost:27017/vtv?authSource=admin'
+      uri: 'mongodb://user:passw@mongo:27017/vtv?authSource=admin'
       auto-index-creation: true
 
 springdoc:
