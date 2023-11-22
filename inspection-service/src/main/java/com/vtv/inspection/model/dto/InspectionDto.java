@@ -2,7 +2,6 @@ package com.vtv.inspection.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vtv.inspection.model.domain.AppointmentType;
-import com.vtv.inspection.model.domain.InspectionResult;
 import com.vtv.inspection.model.domain.InspectionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +23,5 @@ public class InspectionDto {
     private AppointmentType appointmentType;
     private InspectionStatus status;
     private Integer score;
-    private InspectionResult result;
+    private InspectionResultDto result;
 }

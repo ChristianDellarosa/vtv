@@ -27,7 +27,17 @@ public class CheckStepStatusServiceImplTest {
 
     @Test
     public void getStatus_warning() {
-        final Integer score = 5;
+        final Integer score = 7;
+        CheckStepStatus expectedStatus = CheckStepStatus.WARNING;
+
+        final var response = checkStepStatusService.getStatus(score);
+
+        assertEquals(expectedStatus, response);
+    }
+
+    @Test
+    public void getStatus_warning_border() {
+        final Integer score = 6;
         CheckStepStatus expectedStatus = CheckStepStatus.WARNING;
 
         final var response = checkStepStatusService.getStatus(score);

@@ -7,6 +7,8 @@ import com.vtv.inspection.service.CheckStepScoreService;
 import com.vtv.inspection.service.CheckStepStatusService;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
+
 import static com.vtv.inspection.model.domain.CheckStepStatus.isDangerousStatus;
 
 @Component
@@ -35,6 +37,7 @@ public class EnvironmentalPollutionCheckStep implements CheckableStep {
                 .score(score)
                 .status(status)
                 .observations(isDangerousStatus(status) ? DANGEROUS_OBSERVATIONS : CheckStepStatus.isWarningStatus(status) ? WARNING_OBSERVATIONS : null)
+                .dateTime(ZonedDateTime.now())
                 .build();
     }
 }

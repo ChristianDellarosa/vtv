@@ -10,6 +10,8 @@ public class DateValidator implements ConstraintValidator<DateTime, LocalDateTim
     @Override
     public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
         // Valida que la fecha del turno sea posterior a la actualidad
-        return value.getDayOfYear() > LocalDateTime.now().getDayOfYear();
+        final var now = LocalDateTime.now();
+        return value.getDayOfYear() >= LocalDateTime.now().getDayOfYear()  //TODO: Delete = for DEMO
+                && value.getHour() > now.getHour(); //TODO: Delete for Demo
     }
 }
